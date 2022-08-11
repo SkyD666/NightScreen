@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">夜屏</string>
+    <string name="warning">警告</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="back">返回</string>
+    <string name="run_night_screen">启动</string>
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+    <string name="change_light">调节亮度</string>
+    <string name="power_off">关闭</string>
+</resources>
