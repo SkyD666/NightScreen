@@ -16,27 +16,7 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
-        <!-- dialog是否有边框-->
-        <item name="android:windowFrame">@null</item>
-        <!-- dialog是否悬浮在activity上,设置为false，相当于布局在activity中，例如软键盘，可以顶起false的dialog-->
-        <item name="android:windowIsFloating">true</item>
-
-        <item name="android:windowIsTranslucent">true</item>
-        <!-- 去除dialog最底部的灰色背景-->
-        <item name="colorBackgroundFloating">@android:color/transparent</item>
-        <!-- 去除dialog默认白色背景-->
-        <item name="android:background">@android:color/transparent</item>
-        <!-- 是否加遮罩（对话框出现时，背景变暗。为true则充许变暗）-->
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="BottomSheetDialogTheme.NoBackgroundDim" parent="BottomSheetDialogTheme">
-        <!-- 是否加遮罩（对话框出现时，背景变暗。为true则充许变暗）-->
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.Material3.Button.OutlinedButton">
+    <style name="Widget.App.Button.TextButton.IconOnly" parent="Widget.Material3.Button.TextButton">
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -47,22 +27,4 @@
         <item name="iconGravity">textStart</item>
     </style>
 
-    <style name="Widget.Material3.Button.IconTextStart" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="iconGravity">textStart</item>
-    </style>
-
-    <style name="Widget.App.Button.OutlinedButton.IconOnly.White" parent="Widget.App.Button.OutlinedButton.IconOnly">
-        <item name="iconTint">@android:color/white</item>
-        <item name="strokeColor">@android:color/white</item>
-    </style>
-
-    <style name="Widget.App.Button.OutlinedButton.White" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="iconTint">@android:color/white</item>
-        <item name="strokeColor">@android:color/white</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="Widget.App.Button.OutlinedButton.White.LargeIcon" parent="Widget.App.Button.OutlinedButton.White">
-        <item name="iconSize">30dp</item>
-    </style>
 </resources>

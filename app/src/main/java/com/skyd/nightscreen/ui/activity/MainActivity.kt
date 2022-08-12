@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -15,7 +17,10 @@ import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.ui.component.showToast
 import com.skyd.nightscreen.ui.listener.dsl.requestSinglePermission
 import com.skyd.nightscreen.ui.local.LocalNavController
+import com.skyd.nightscreen.ui.screen.home.HOME_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.home.HomeScreen
+import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
+import com.skyd.nightscreen.ui.screen.settings.SettingsScreen
 import com.skyd.nightscreen.ui.theme.NightScreenTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseComposeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen()
 
         setContent {
             val navController = rememberAnimatedNavController()
@@ -39,10 +46,16 @@ class MainActivity : BaseComposeActivity() {
                             .fillMaxSize()
                             .background(MaterialTheme.colorScheme.background),
                         navController = navController,
-                        startDestination = "home",
+                        startDestination = HOME_SCREEN_ROUTE,
                     ) {
-                        composable("home") {
-                            HomeScreen(navController)
+                        composable(HOME_SCREEN_ROUTE) {
+                            HomeScreen()
+                        }
+                        composable(
+                            route = SETTINGS_SCREEN_ROUTE,
+                            deepLinks = listOf(navDeepLink { action = SETTINGS_SCREEN_ROUTE })
+                        ) {
+                            SettingsScreen()
                         }
                     }
                 }

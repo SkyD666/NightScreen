@@ -9,4 +9,14 @@
     <string name="about">关于</string>
     <string name="change_light">调节亮度</string>
     <string name="power_off">关闭</string>
+    <string name="settings_screen_choice_a_color">选择一个颜色</string>
+    <string name="settings_screen_screen_color">屏幕颜色</string>
+    <string name="settings_screen_screen_alpha">透明度</string>
+    <string name="settings_screen_choice_a_alpha">设置颜色透明度</string>
+    <string name="settings_screen_color_settings">颜色设置</string>
+    <string name="alpha_dialog_title">选择透明度</string>
+    <string name="color_dialog_title">选择颜色</string>
+    <string name="settings_screen_screen_settings">屏幕设置</string>
+    <string name="settings_screen_keep_screen_on">保持屏幕常亮</string>
+    <string name="settings_screen_keep_screen_on_description">开启夜间屏幕时保持屏幕常亮</string>
 </resources>

@@ -15,8 +15,8 @@ android {
         applicationId "com.skyd.nightscreen"
         minSdk 24
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         flavorDimensions "versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -108,6 +108,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material3:material3:$md3_version"
     implementation "androidx.compose.material3:material3-window-size-class:$md3_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
     implementation 'androidx.activity:activity-compose:1.5.0'
@@ -121,6 +122,9 @@ dependencies {
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
     implementation "io.coil-kt:coil-compose:2.1.0"
     implementation "androidx.profileinstaller:profileinstaller:1.2.0-rc01"
+    implementation 'com.godaddy.android.colorpicker:compose-color-picker:0.4.2'
+    implementation 'com.godaddy.android.colorpicker:compose-color-picker-android:0.4.2'
+    implementation "androidx.core:core-splashscreen:1.0.0-rc01"
 
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"

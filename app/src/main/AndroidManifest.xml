@@ -19,7 +19,7 @@
         <activity
             android:name="com.skyd.nightscreen.ui.activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.NightScreen">
+            android:theme="@style/Theme.NightScreen.NoActionBar.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

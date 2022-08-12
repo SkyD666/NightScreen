@@ -15,16 +15,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.skyd.nightscreen.R
+import com.skyd.nightscreen.ext.plus
 import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
 import com.skyd.nightscreen.ui.component.dialog.getNightScreenDialog
+import com.skyd.nightscreen.ui.local.LocalNavController
+import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
+
+const val HOME_SCREEN_ROUTE = "homeScreen"
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen() {
+    val navController = LocalNavController.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec = rememberSplineBasedDecay(),
         state = rememberTopAppBarState()
@@ -43,10 +49,14 @@ fun HomeScreen(navController: NavController) {
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(top = innerPadding.calculateTopPadding())
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp)
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp) + PaddingValues(
+                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+                bottom = innerPadding.calculateBottomPadding()
+            )
         ) {
             item {
                 HomeItem(
@@ -57,12 +67,11 @@ fun HomeScreen(navController: NavController) {
                 }
             }
             item {
-
                 HomeItem(
                     imageVector = Icons.Outlined.Settings,
                     text = stringResource(id = R.string.settings),
                 ) {
-
+                    navController.navigate(SETTINGS_SCREEN_ROUTE)
                 }
             }
             item {
