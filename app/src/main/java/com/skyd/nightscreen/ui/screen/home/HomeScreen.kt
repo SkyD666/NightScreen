@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
@@ -24,6 +23,7 @@ import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
 import com.skyd.nightscreen.ui.component.dialog.getNightScreenDialog
 import com.skyd.nightscreen.ui.local.LocalNavController
+import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 
 const val HOME_SCREEN_ROUTE = "homeScreen"
@@ -49,14 +49,11 @@ fun HomeScreen() {
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .padding(top = innerPadding.calculateTopPadding())
+                .padding(innerPadding)
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp) + PaddingValues(
-                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-                bottom = innerPadding.calculateBottomPadding()
-            )
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp) +
+                    WindowInsets.navigationBars.asPaddingValues()
         ) {
             item {
                 HomeItem(
@@ -79,7 +76,7 @@ fun HomeScreen() {
                     imageVector = Icons.Outlined.Info,
                     text = stringResource(id = R.string.about),
                 ) {
-
+                    navController.navigate(ABOUT_SCREEN_ROUTE)
                 }
             }
         }

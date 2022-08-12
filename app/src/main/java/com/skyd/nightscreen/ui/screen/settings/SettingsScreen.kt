@@ -16,10 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ui.component.*
 import com.skyd.nightscreen.ui.component.dialog.AlphaDialog
@@ -29,12 +26,11 @@ import com.skyd.nightscreen.ui.local.LocalNavController
 const val SETTINGS_SCREEN_ROUTE = "settingsScreen"
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec = rememberSplineBasedDecay(),
         state = rememberTopAppBarState()
     )
-    val context = LocalContext.current
     val navController = LocalNavController.current
     Scaffold(
         topBar = {
@@ -57,13 +53,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding())
+                .padding(innerPadding)
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = PaddingValues(
-                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-                bottom = innerPadding.calculateBottomPadding()
-            )
+            contentPadding = WindowInsets.navigationBars.asPaddingValues()
         ) {
             item {
                 CategorySettingsItem(

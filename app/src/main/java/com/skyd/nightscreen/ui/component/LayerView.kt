@@ -16,8 +16,8 @@ import com.skyd.nightscreen.util.screenWidth
 class LayerView(context: Context) : View(context) {
     private val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val layoutParams = WindowManager.LayoutParams(
-        screenWidth,
-        screenHeight,
+        context.screenWidth,
+        context.screenHeight,
         0,
         0,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

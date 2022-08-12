@@ -19,4 +19,7 @@
     <string name="settings_screen_screen_settings">屏幕设置</string>
     <string name="settings_screen_keep_screen_on">保持屏幕常亮</string>
     <string name="settings_screen_keep_screen_on_description">开启夜间屏幕时保持屏幕常亮</string>
+    <string name="github">GitHub</string>
+    <string name="no_browser_found">找不到浏览器，网址是：%s</string>
+    <string name="license">开源许可</string>
 </resources>

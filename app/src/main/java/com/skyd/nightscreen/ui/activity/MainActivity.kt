@@ -17,8 +17,12 @@ import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.ui.component.showToast
 import com.skyd.nightscreen.ui.listener.dsl.requestSinglePermission
 import com.skyd.nightscreen.ui.local.LocalNavController
+import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
+import com.skyd.nightscreen.ui.screen.about.AboutScreen
 import com.skyd.nightscreen.ui.screen.home.HOME_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.home.HomeScreen
+import com.skyd.nightscreen.ui.screen.license.LICENSE_SCREEN_ROUTE
+import com.skyd.nightscreen.ui.screen.license.LicenseScreen
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SettingsScreen
 import com.skyd.nightscreen.ui.theme.NightScreenTheme
@@ -56,6 +60,12 @@ class MainActivity : BaseComposeActivity() {
                             deepLinks = listOf(navDeepLink { action = SETTINGS_SCREEN_ROUTE })
                         ) {
                             SettingsScreen()
+                        }
+                        composable(ABOUT_SCREEN_ROUTE) {
+                            AboutScreen()
+                        }
+                        composable(LICENSE_SCREEN_ROUTE) {
+                            LicenseScreen()
                         }
                     }
                 }

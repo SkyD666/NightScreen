@@ -9,6 +9,7 @@
 |    ![ic_home_screen](image/screenshot/ic_home_screen.jpg)    | ![ic_home_screen](image/screenshot/ic_nignt_screen_dialog.jpg) |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | ![ic_settings_screen](image/screenshot/ic_settings_screen.jpg) |   ![ic_alpha_dialog](image/screenshot/ic_alpha_dialog.jpg)   |
+|   ![ic_color_dialog](image/screenshot/ic_color_dialog.jpg)   |   ![ic_about_screen](image/screenshot/ic_about_screen.jpg)   |
 
 ## 🛠主要技术栈
 

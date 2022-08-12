@@ -5,63 +5,70 @@ import android.content.res.Configuration
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import com.skyd.nightscreen.appContext
 
-val isLand = appContext.resources.configuration.orientation ==
-        Configuration.ORIENTATION_LANDSCAPE
+val Context.screenIsLand: Boolean
+    get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-val screenHeight: Int
+val Context.screenHeight: Int
     get() {
-        val display = appContext.display
-        val windowManager = appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            display
+        } else {
+            windowManager.defaultDisplay
+        }
         val height = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             windowManager.currentWindowMetrics.bounds.height()
         } else {
             val dm = DisplayMetrics()
             display?.getRealMetrics(dm)
-            if (isLand) dm.widthPixels else dm.heightPixels
+            if (screenIsLand) dm.widthPixels else dm.heightPixels
         }
-        return if (isLand) {
+        return if (screenIsLand) {
             height + statusBarHeight
         } else {
             height + statusBarHeight + navigationBarHeight
         }
     }
 
-val screenWidth: Int
+val Context.screenWidth: Int
     get() {
-        val display = appContext.display
-        val windowManager = appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            display
+        } else {
+            windowManager.defaultDisplay
+        }
         val width = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             windowManager.currentWindowMetrics.bounds.width()
         } else {
             val dm = DisplayMetrics()
             display?.getRealMetrics(dm)
-            if (isLand) dm.widthPixels else dm.heightPixels
+            if (screenIsLand) dm.widthPixels else dm.heightPixels
         }
-        return if (isLand) {
+        return if (screenIsLand) {
             width + navigationBarHeight
         } else {
             width
         }
     }
 
-val statusBarHeight: Int
+val Context.statusBarHeight: Int
     get() {
-        val resourceId: Int = appContext.resources
+        val resourceId: Int = resources
             .getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
-            return appContext.resources.getDimensionPixelSize(resourceId)
+            return resources.getDimensionPixelSize(resourceId)
         }
         return 0
     }
 
-val navigationBarHeight: Int
+val Context.navigationBarHeight: Int
     get() {
-        val resourceId: Int = appContext.resources
+        val resourceId: Int = resources
             .getIdentifier("navigation_bar_height", "dimen", "android")
         if (resourceId > 0) {
-            return appContext.resources.getDimensionPixelSize(resourceId)
+            return resources.getDimensionPixelSize(resourceId)
         }
         return 0
     }

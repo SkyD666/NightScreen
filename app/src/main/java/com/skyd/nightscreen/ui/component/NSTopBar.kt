@@ -41,7 +41,7 @@ fun NSTopBar(
         NSTopBarStyle.Small -> TopAppBarDefaults.smallTopAppBarColors()
         NSTopBarStyle.Large -> TopAppBarDefaults.largeTopAppBarColors()
     }
-    val scrollFraction = scrollBehavior?.state?.overlappedFraction ?: 0f
+    val scrollFraction = scrollBehavior?.state?.collapsedFraction ?: 0f
     val appBarContainerColor by colors.containerColor(scrollFraction)
     val topBarModifier = Modifier.padding(contentPadding())
     Surface(modifier = modifier, color = appBarContainerColor) {
