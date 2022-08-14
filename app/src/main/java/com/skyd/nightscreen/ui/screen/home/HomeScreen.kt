@@ -1,5 +1,6 @@
 package com.skyd.nightscreen.ui.screen.home
 
+import android.os.Bundle
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -17,8 +19,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.hjq.permissions.Permission
 import com.skyd.nightscreen.R
+import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ext.plus
+import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
 import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
 import com.skyd.nightscreen.ui.component.dialog.getNightScreenDialog
@@ -27,15 +32,24 @@ import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 
 const val HOME_SCREEN_ROUTE = "homeScreen"
+const val REQUEST_PERMISSION = "requestPermission"
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(arguments: Bundle? = null) {
     val navController = LocalNavController.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         decayAnimationSpec = rememberSplineBasedDecay(),
         state = rememberTopAppBarState()
     )
     val context = LocalContext.current
+    SideEffect {
+        arguments ?: return@SideEffect
+        if (arguments.getString(REQUEST_PERMISSION) == Permission.SYSTEM_ALERT_WINDOW) {
+            context.activity.requestSystemAlertWindowPermission(onGranted = {
+                getNightScreenDialog(context).show()
+            })
+        }
+    }
     Scaffold(
         topBar = {
             NSTopBar(
@@ -60,7 +74,9 @@ fun HomeScreen() {
                     imageVector = Icons.Outlined.PlayArrow,
                     text = stringResource(id = R.string.run_night_screen),
                 ) {
-                    getNightScreenDialog(context).show()
+                    context.activity.requestSystemAlertWindowPermission(onGranted = {
+                        getNightScreenDialog(context).show()
+                    })
                 }
             }
             item {

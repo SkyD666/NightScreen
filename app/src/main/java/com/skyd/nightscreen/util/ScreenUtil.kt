@@ -12,11 +12,7 @@ val Context.screenIsLand: Boolean
 val Context.screenHeight: Int
     get() {
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            display
-        } else {
-            windowManager.defaultDisplay
-        }
+        val display = windowManager.defaultDisplay
         val height = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             windowManager.currentWindowMetrics.bounds.height()
         } else {
@@ -34,11 +30,7 @@ val Context.screenHeight: Int
 val Context.screenWidth: Int
     get() {
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            display
-        } else {
-            windowManager.defaultDisplay
-        }
+        val display = windowManager.defaultDisplay
         val width = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             windowManager.currentWindowMetrics.bounds.width()
         } else {

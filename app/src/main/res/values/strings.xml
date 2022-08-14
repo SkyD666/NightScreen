@@ -22,4 +22,5 @@
     <string name="github">GitHub</string>
     <string name="no_browser_found">找不到浏览器，网址是：%s</string>
     <string name="license">开源许可</string>
+    <string name="no_permission_can_not_run">无悬浮窗权限，无法启动！</string>
 </resources>
