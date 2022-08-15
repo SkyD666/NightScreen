@@ -19,7 +19,7 @@ fun SwitchSettingsItem(
     icon: ImageVector,
     text: String,
     description: String? = null,
-    checked: Boolean = false,
+    checked: MutableState<Boolean> = mutableStateOf(false),
     onCheckedChange: ((Boolean) -> Unit)?,
 ) {
     SwitchSettingsItem(
@@ -36,21 +36,20 @@ fun SwitchSettingsItem(
     icon: Painter,
     text: String,
     description: String? = null,
-    checked: Boolean = false,
+    checked: MutableState<Boolean> = mutableStateOf(false),
     onCheckedChange: ((Boolean) -> Unit)?,
 ) {
-    var c by remember { mutableStateOf(checked) }
     BaseSettingsItem(
         icon = icon,
         text = text,
         description = description,
         onClick = {
-            c = !c
-            onCheckedChange?.invoke(c)
+            checked.value = !checked.value
+            onCheckedChange?.invoke(checked.value)
         }
     ) {
-        Switch(checked = c, onCheckedChange = {
-            c = it
+        Switch(checked = checked.value, onCheckedChange = {
+            checked.value = it
             onCheckedChange?.invoke(it)
         })
     }

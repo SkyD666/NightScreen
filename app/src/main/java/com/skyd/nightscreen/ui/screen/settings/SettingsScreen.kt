@@ -4,6 +4,7 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Brightness5
 import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Opacity
@@ -16,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.skyd.nightscreen.R
+import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ui.component.*
 import com.skyd.nightscreen.ui.component.dialog.AlphaDialog
 import com.skyd.nightscreen.ui.component.dialog.ColorDialog
@@ -32,6 +35,7 @@ fun SettingsScreen() {
         state = rememberTopAppBarState()
     )
     val navController = LocalNavController.current
+    val activity = LocalContext.current.activity
     Scaffold(
         topBar = {
             NSTopBar(
@@ -50,6 +54,7 @@ fun SettingsScreen() {
     ) { innerPadding ->
         var color by remember { mutableStateOf(screenColor) }
         var alphaColor by remember { mutableStateOf(calculatedColor) }
+        var lowestScreenChecked = remember { mutableStateOf(lowestScreenBrightness) }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -114,8 +119,19 @@ fun SettingsScreen() {
                     icon = Icons.Default.Brightness7,
                     text = stringResource(id = R.string.settings_screen_keep_screen_on),
                     description = stringResource(id = R.string.settings_screen_keep_screen_on_description),
-                    checked = keepScreenOn,
+                    checked = remember { mutableStateOf(keepScreenOn) },
                     onCheckedChange = { keepScreenOn = it },
+                )
+            }
+            item {
+                SwitchSettingsItem(
+                    icon = Icons.Default.Brightness5,
+                    text = stringResource(id = R.string.settings_screen_lowest_screen_brightness),
+                    description = stringResource(id = R.string.settings_screen_lowest_screen_brightness_description),
+                    checked = lowestScreenChecked,
+                    onCheckedChange = {
+                        lowestScreenBrightness = it
+                    },
                 )
             }
         }

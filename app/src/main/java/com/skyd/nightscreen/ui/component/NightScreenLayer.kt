@@ -11,6 +11,7 @@ var showNightScreenLayer: Boolean = false
     set(value) {
         if (value) {
             layerView.visible()
+            layerView.lowestScreenBrightness = lowestScreenBrightness
             layerView.keepScreenOn = keepScreenOn
             layerView.updateColor(calculatedColor)
         } else {
@@ -43,6 +44,13 @@ var keepScreenOn = sharedPreferences().getBoolean("keepScreenOn", false)
         field = value
         layerView.keepScreenOn = value
         sharedPreferences().editor { putBoolean("keepScreenOn", value) }
+    }
+
+var lowestScreenBrightness = sharedPreferences().getBoolean("lowestScreenBrightness", false)
+    set(value) {
+        field = value
+        layerView.lowestScreenBrightness = value
+        sharedPreferences().editor { putBoolean("lowestScreenBrightness", value) }
     }
 
 private val layerView by lazy { LayerView(appContext) }

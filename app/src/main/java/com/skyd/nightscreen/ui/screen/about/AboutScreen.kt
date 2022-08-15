@@ -26,6 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.config.Const
@@ -36,6 +38,7 @@ import com.skyd.nightscreen.ui.component.NSTopBarStyle
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.license.LICENSE_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.shape.ReuleauxTriangleShape
+import com.skyd.nightscreen.util.CommonUtil.getAppVersionName
 import com.skyd.nightscreen.util.CommonUtil.openBrowser
 import com.skyd.nightscreen.util.screenIsLand
 
@@ -164,6 +167,7 @@ private fun AppIconArea(modifier: Modifier = Modifier) {
                 repeatMode = RepeatMode.Restart
             )
         )
+
         Box(
             modifier = Modifier
                 .padding(top = 50.dp, bottom = 50.dp)
@@ -188,14 +192,29 @@ private fun AppIconArea(modifier: Modifier = Modifier) {
                     )
                 }
         ) {
-            Image(
+            BadgedBox(
                 modifier = Modifier
                     .fillMaxSize(0.46f)
                     .align(Alignment.Center),
-                painter = painterResource(id = R.drawable.ic_icon_128),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(color = Color.White)
-            )
+                badge = {
+                    Badge {
+                        val badgeNumber = remember { getAppVersionName() }
+                        Text(
+                            badgeNumber,
+                            modifier = Modifier.semantics {
+                                contentDescription = "$badgeNumber new notifications"
+                            }
+                        )
+                    }
+                }
+            ) {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(id = R.drawable.ic_icon_128),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(color = Color.White)
+                )
+            }
         }
     }
 }

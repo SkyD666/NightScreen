@@ -1,15 +1,44 @@
-# 🌙Night Screen
+<div align="center">
+    <div>
+        <img src="image/icon.svg" style="height: 220px"/>
+    </div>
+    <h1>🌙 Night Screen</h1>
+    <p>
+        <a href="https://github.com/SkyD666/NightScreen/releases/latest" style="text-decoration:none">
+            <img src="https://img.shields.io/github/v/release/SkyD666/NightScreen?display_name=release" alt="GitHub release (latest by date)"/>
+        </a>
+        <a href="https://github.com/SkyD666/NightScreen/releases/latest" style="text-decoration:none" >
+            <img src="https://img.shields.io/github/downloads/SkyD666/NightScreen/total" alt="GitHub all downloads"/>
+        </a>
+        <a href="https://img.shields.io/badge/Android-7.0%2B-brightgreen" style="text-decoration:none" >
+            <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen" alt="Android version"/>
+        </a>
+        <a href="https://github.com/SkyD666/Imomoe/blob/master/LICENSE" style="text-decoration:none" >
+            <img src="https://img.shields.io/github/license/SkyD666/NightScreen" alt="GitHub license"/>
+        </a>
+	</p>
+    <p>
+        当您在<b>夜间</b>使用手机时，Night Screen可以帮助您<b>减少屏幕亮度</b>，减少对眼睛的伤害。
+    </p>
+    <p>
+        软件完全采用<b>Material You</b>设计风格。除全局Dialog外，<b>完全使用Jetpack Compose</b>开发。
+    </p>
+</div>
 
-当您在**夜间**使用手机时，Night Screen可以帮助您**减少屏幕亮度**，减少对眼睛的伤害。
+## 💡主要功能
 
-软件完全采用**Material 3 (You)**设计风格。除全局Dialog外，**完全使用Jetpack Compose**开发。
+- 支持从系统下拉**任务栏开关启动**
+- 支持调整**屏幕颜色**
+- 支持屏幕**常亮**
+- 支持**自动降低系统亮度**
+- ……
 
 ## 📸应用截图
 
-|    ![ic_home_screen](image/screenshot/ic_home_screen.jpg)    | ![ic_home_screen](image/screenshot/ic_nignt_screen_dialog.jpg) |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![ic_settings_screen](image/screenshot/ic_settings_screen.jpg) |   ![ic_alpha_dialog](image/screenshot/ic_alpha_dialog.jpg)   |
-|   ![ic_color_dialog](image/screenshot/ic_color_dialog.jpg)   |   ![ic_about_screen](image/screenshot/ic_about_screen.jpg)   |
+![ic_home_screen](image/screenshot/ic_home_screen.jpg) ![ic_home_screen](image/screenshot/ic_nignt_screen_dialog.jpg)
+![ic_settings_screen](image/screenshot/ic_settings_screen.jpg) ![ic_alpha_dialog](image/screenshot/ic_alpha_dialog.jpg)
+![ic_color_dialog](image/screenshot/ic_color_dialog.jpg) ![ic_about_screen](image/screenshot/ic_about_screen.jpg)
+![ic_tile](image/screenshot/ic_tile.png)
 
 ## 🛠主要技术栈
 

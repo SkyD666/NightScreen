@@ -23,4 +23,12 @@
     <string name="no_browser_found">找不到浏览器，网址是：%s</string>
     <string name="license">开源许可</string>
     <string name="no_permission_can_not_run">无悬浮窗权限，无法启动！</string>
+    <string name="settings_screen_lowest_screen_brightness">最低屏幕亮度</string>
+    <string name="settings_screen_lowest_screen_brightness_description">启动后自动将屏幕亮度调到最低</string>
+    <string name="no_permission_can_not_lowest_brightness">无权限，无法降低屏幕亮度</string>
+    <string name="request_permissions">申请权限</string>
+    <string name="request_permission_failed">申请%s权限失败</string>
+    <string name="request_permissions_success">申请权限成功</string>
+    <string name="alert_window_permission">悬浮窗</string>
+    <string name="screen_brightness_permission">更改屏幕亮度</string>
 </resources>

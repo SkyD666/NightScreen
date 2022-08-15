@@ -39,6 +39,17 @@ class LayerView(context: Context) : View(context) {
 
     private var isVisible = false
     private var bgColor = Color.TRANSPARENT
+    var lowestScreenBrightness = false
+        set(value) {
+            if (value == field) return
+            layoutParams.screenBrightness =
+                if (value) 0f else WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+            if (isVisible) {
+                windowManager.removeView(this)
+                windowManager.addView(this, layoutParams)
+            }
+            field = value
+        }
 
     fun updateColor(color: Int) {
         ObjectAnimator.ofInt(this, "backgroundColor", bgColor, color).apply {

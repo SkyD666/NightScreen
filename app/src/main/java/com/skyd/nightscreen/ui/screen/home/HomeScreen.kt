@@ -6,9 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -23,6 +21,7 @@ import com.hjq.permissions.Permission
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ext.plus
+import com.skyd.nightscreen.ext.requestAllPermissions
 import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
 import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
@@ -74,9 +73,15 @@ fun HomeScreen(arguments: Bundle? = null) {
                     imageVector = Icons.Outlined.PlayArrow,
                     text = stringResource(id = R.string.run_night_screen),
                 ) {
-                    context.activity.requestSystemAlertWindowPermission(onGranted = {
-                        getNightScreenDialog(context).show()
-                    })
+                    getNightScreenDialog(context).show()
+                }
+            }
+            item {
+                HomeItem(
+                    imageVector = Icons.Outlined.DoneAll,
+                    text = stringResource(id = R.string.request_permissions),
+                ) {
+                    context.activity.requestAllPermissions()
                 }
             }
             item {
