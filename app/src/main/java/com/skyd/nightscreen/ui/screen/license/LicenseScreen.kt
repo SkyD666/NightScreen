@@ -1,6 +1,5 @@
 package com.skyd.nightscreen.ui.screen.license
 
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,10 +25,8 @@ const val LICENSE_SCREEN_ROUTE = "licenseScreen"
 
 @Composable
 fun LicenseScreen() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec = rememberSplineBasedDecay(),
-        state = rememberTopAppBarState()
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = rememberTopAppBarState())
     val navController = LocalNavController.current
     Scaffold(
         topBar = {
@@ -51,10 +48,8 @@ fun LicenseScreen() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = WindowInsets.navigationBars.asPaddingValues() +
-                    PaddingValues(vertical = 10.dp)
+            contentPadding = PaddingValues(vertical = 10.dp) + it
         ) {
             items(items = dataList) { item ->
                 LicenseItem(item)

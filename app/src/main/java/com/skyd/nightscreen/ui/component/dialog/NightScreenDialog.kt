@@ -15,6 +15,7 @@ import com.skyd.nightscreen.ui.component.alphaRange
 import com.skyd.nightscreen.ui.component.screenAlpha
 import com.skyd.nightscreen.ui.component.showNightScreenLayer
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
+import java.lang.Float.max
 import java.lang.Float.min
 
 
@@ -47,14 +48,14 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
         showNightScreenLayer = false
         dialog.dismiss()
     }
-    slider.valueFrom = alphaRange.start
-    slider.valueTo = alphaRange.endInclusive
-    slider.value = min(screenAlpha, slider.valueTo)
+    slider.valueFrom = 1f - alphaRange.endInclusive
+    slider.valueTo = 1f - alphaRange.start
+    slider.value = max(slider.valueFrom, min(1f - screenAlpha, slider.valueTo))
     slider.setLabelFormatter {
         String.format("%.1f", it * 100f) + "%"
     }
     slider.addOnChangeListener { _, value, _ ->
-        screenAlpha = value
+        screenAlpha = 1f - value
     }
 
     showNightScreenLayer = true

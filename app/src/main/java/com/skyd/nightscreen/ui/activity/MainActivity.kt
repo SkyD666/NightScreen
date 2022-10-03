@@ -2,7 +2,6 @@ package com.skyd.nightscreen.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -60,7 +59,8 @@ class MainActivity : BaseComposeActivity() {
                                 }
                             ),
                             deepLinks = listOf(navDeepLink {
-                                uriPattern = "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION={$REQUEST_PERMISSION}"
+                                uriPattern =
+                                    "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION={$REQUEST_PERMISSION}"
                             })
                         ) {
                             HomeScreen(it.arguments)

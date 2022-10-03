@@ -3,7 +3,6 @@ package com.skyd.nightscreen.ui.screen.about
 import android.view.HapticFeedbackConstants
 import android.view.SoundEffectConstants
 import androidx.compose.animation.core.*
-import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,10 +45,8 @@ const val ABOUT_SCREEN_ROUTE = "aboutScreen"
 
 @Composable
 fun AboutScreen() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec = rememberSplineBasedDecay(),
-        state = rememberTopAppBarState()
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = rememberTopAppBarState())
     val context = LocalContext.current
     val navController = LocalNavController.current
     Scaffold(
@@ -71,9 +68,8 @@ fun AboutScreen() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = WindowInsets.navigationBars.asPaddingValues()
+            contentPadding = it
         ) {
             if (context.screenIsLand) {
                 item {

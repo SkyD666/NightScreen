@@ -1,7 +1,6 @@
 package com.skyd.nightscreen.ui.screen.settings
 
-import androidx.compose.animation.rememberSplineBasedDecay
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Brightness5
@@ -17,10 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.skyd.nightscreen.R
-import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ui.component.*
 import com.skyd.nightscreen.ui.component.dialog.AlphaDialog
 import com.skyd.nightscreen.ui.component.dialog.ColorDialog
@@ -30,12 +27,9 @@ const val SETTINGS_SCREEN_ROUTE = "settingsScreen"
 
 @Composable
 fun SettingsScreen() {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        decayAnimationSpec = rememberSplineBasedDecay(),
-        state = rememberTopAppBarState()
-    )
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = rememberTopAppBarState())
     val navController = LocalNavController.current
-    val activity = LocalContext.current.activity
     Scaffold(
         topBar = {
             NSTopBar(
@@ -54,13 +48,12 @@ fun SettingsScreen() {
     ) { innerPadding ->
         var color by remember { mutableStateOf(screenColor) }
         var alphaColor by remember { mutableStateOf(calculatedColor) }
-        var lowestScreenChecked = remember { mutableStateOf(lowestScreenBrightness) }
+        val lowestScreenChecked = remember { mutableStateOf(lowestScreenBrightness) }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = WindowInsets.navigationBars.asPaddingValues()
+            contentPadding = innerPadding
         ) {
             item {
                 CategorySettingsItem(

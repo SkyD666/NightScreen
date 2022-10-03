@@ -9,14 +9,14 @@ plugins {
 apply from: secret
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.skyd.nightscreen"
         minSdk 24
         targetSdk 32
-        versionCode 3
-        versionName "1.3"
+        versionCode 4
+        versionName "1.4"
         flavorDimensions "versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -112,8 +112,8 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
     implementation 'androidx.activity:activity-compose:1.5.0'
-    implementation "androidx.appcompat:appcompat:1.4.2"
-    implementation "com.google.android.material:material:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.5.0"
+    implementation "com.google.android.material:material:1.8.0-alpha01"
     implementation "com.github.getActivity:XXPermissions:15.0"
     implementation "com.google.dagger:hilt-android:2.42"
     kapt "com.google.dagger:hilt-android-compiler:2.42"
