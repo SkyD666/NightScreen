@@ -10,7 +10,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -45,8 +45,7 @@ const val ABOUT_SCREEN_ROUTE = "aboutScreen"
 
 @Composable
 fun AboutScreen() {
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val context = LocalContext.current
     val navController = LocalNavController.current
     Scaffold(
@@ -111,7 +110,7 @@ private fun AboutItemList(
             Spacer(modifier = Modifier.width(20.dp))
             AboutItem(
                 modifier = Modifier.weight(1f),
-                painter = rememberVectorPainter(image = Icons.Outlined.Description),
+                painter = rememberVectorPainter(image = Icons.Default.Description),
                 text = stringResource(id = R.string.license)
             ) {
                 navController.navigate(LICENSE_SCREEN_ROUTE)

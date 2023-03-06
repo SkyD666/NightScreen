@@ -1,8 +1,7 @@
 package com.skyd.nightscreen.ui.component.dialog
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material.icons.outlined.Opacity
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -24,7 +23,7 @@ fun ColorDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         icon = {
-            Icon(imageVector = Icons.Outlined.ColorLens, contentDescription = null)
+            Icon(imageVector = Icons.Default.ColorLens, contentDescription = null)
         },
         title = {
             Text(text = stringResource(id = R.string.color_dialog_title))

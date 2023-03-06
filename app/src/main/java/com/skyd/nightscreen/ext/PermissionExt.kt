@@ -1,7 +1,6 @@
 package com.skyd.nightscreen.ext
 
 import android.app.Activity
-import android.content.Context
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.R

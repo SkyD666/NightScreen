@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Opacity
+import androidx.compose.material.icons.filled.Opacity
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -30,7 +30,7 @@ fun AlphaDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         icon = {
-            Icon(imageVector = Icons.Outlined.Opacity, contentDescription = null)
+            Icon(imageVector = Icons.Default.Opacity, contentDescription = null)
         },
         title = {
             Text(text = stringResource(id = R.string.alpha_dialog_title))

@@ -4,11 +4,12 @@ import android.os.Bundle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DoneAll
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -38,8 +39,7 @@ const val REQUEST_PERMISSION = "requestPermission"
 @Composable
 fun HomeScreen(arguments: Bundle? = null) {
     val navController = LocalNavController.current
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val context = LocalContext.current
     SideEffect {
         arguments ?: return@SideEffect
@@ -68,7 +68,7 @@ fun HomeScreen(arguments: Bundle? = null) {
         ) {
             item {
                 HomeItem(
-                    imageVector = Icons.Outlined.PlayArrow,
+                    imageVector = Icons.Default.PlayArrow,
                     text = stringResource(id = R.string.run_night_screen),
                 ) {
                     getNightScreenDialog(context).show()
@@ -76,7 +76,7 @@ fun HomeScreen(arguments: Bundle? = null) {
             }
             item {
                 HomeItem(
-                    imageVector = Icons.Outlined.DoneAll,
+                    imageVector = Icons.Default.DoneAll,
                     text = stringResource(id = R.string.request_permissions),
                 ) {
                     context.activity.requestAllPermissions()
@@ -84,7 +84,7 @@ fun HomeScreen(arguments: Bundle? = null) {
             }
             item {
                 HomeItem(
-                    imageVector = Icons.Outlined.Settings,
+                    imageVector = Icons.Default.Settings,
                     text = stringResource(id = R.string.settings),
                 ) {
                     navController.navigate(SETTINGS_SCREEN_ROUTE)
@@ -92,7 +92,7 @@ fun HomeScreen(arguments: Bundle? = null) {
             }
             item {
                 HomeItem(
-                    imageVector = Icons.Outlined.Info,
+                    imageVector = Icons.Default.Info,
                     text = stringResource(id = R.string.about),
                 ) {
                     navController.navigate(ABOUT_SCREEN_ROUTE)
@@ -105,7 +105,8 @@ fun HomeScreen(arguments: Bundle? = null) {
 @Composable
 private fun HomeItem(imageVector: ImageVector, text: String, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.padding(vertical = 10.dp)
+        modifier = Modifier.padding(vertical = 10.dp),
+        shape = RoundedCornerShape(percent = 100)
     ) {
         Row(
             modifier = Modifier

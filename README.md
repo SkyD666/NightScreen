@@ -18,12 +18,13 @@
         </a>
 	</p>
     <p>
-        当您在<b>夜间</b>使用手机时，Night Screen可以帮助您<b>减少屏幕亮度</b>，减少对眼睛的伤害。
+        当您在<b>夜间</b>使用手机时，Night Screen 可以帮助您<b>减少屏幕亮度</b>，减少对眼睛的伤害。
     </p>
     <p>
-        软件完全采用<b>Material You</b>设计风格。除全局Dialog外，<b>完全使用Jetpack Compose</b>开发。
+        软件完全采用<b> Material You </b>设计风格。除全局 Dialog 外，<b>完全使用 Jetpack Compose </b>开发。
     </p>
 </div>
+
 
 ## 💡主要功能
 
