@@ -20,14 +20,12 @@ import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ui.component.*
 import com.skyd.nightscreen.ui.component.dialog.AlphaDialog
 import com.skyd.nightscreen.ui.component.dialog.ColorDialog
-import com.skyd.nightscreen.ui.local.LocalNavController
 
 const val SETTINGS_SCREEN_ROUTE = "settingsScreen"
 
 @Composable
 fun SettingsScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val navController = LocalNavController.current
     Scaffold(
         topBar = {
             NSTopBar(
@@ -36,11 +34,6 @@ fun SettingsScreen() {
                     Text(text = stringResource(R.string.settings))
                 },
                 scrollBehavior = scrollBehavior,
-                navigationIcon = {
-                    BackIcon {
-                        navController.popBackStack()
-                    }
-                }
             )
         }
     ) { innerPadding ->

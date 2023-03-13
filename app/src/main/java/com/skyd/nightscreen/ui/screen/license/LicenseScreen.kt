@@ -15,10 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.bean.LicenseBean
 import com.skyd.nightscreen.ext.plus
-import com.skyd.nightscreen.ui.component.BackIcon
 import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
-import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.util.CommonUtil.openBrowser
 
 const val LICENSE_SCREEN_ROUTE = "licenseScreen"
@@ -26,7 +24,6 @@ const val LICENSE_SCREEN_ROUTE = "licenseScreen"
 @Composable
 fun LicenseScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val navController = LocalNavController.current
     Scaffold(
         topBar = {
             NSTopBar(
@@ -35,11 +32,6 @@ fun LicenseScreen() {
                     Text(text = stringResource(R.string.license))
                 },
                 scrollBehavior = scrollBehavior,
-                navigationIcon = {
-                    BackIcon {
-                        navController.popBackStack()
-                    }
-                }
             )
         }
     ) {

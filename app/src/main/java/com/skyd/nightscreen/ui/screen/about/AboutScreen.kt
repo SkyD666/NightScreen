@@ -30,7 +30,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.config.Const
-import com.skyd.nightscreen.ui.component.BackIcon
 import com.skyd.nightscreen.ui.component.Centered
 import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
@@ -47,7 +46,6 @@ const val ABOUT_SCREEN_ROUTE = "aboutScreen"
 fun AboutScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val context = LocalContext.current
-    val navController = LocalNavController.current
     Scaffold(
         topBar = {
             NSTopBar(
@@ -56,11 +54,6 @@ fun AboutScreen() {
                     Text(text = stringResource(R.string.about))
                 },
                 scrollBehavior = scrollBehavior,
-                navigationIcon = {
-                    BackIcon {
-                        navController.popBackStack()
-                    }
-                }
             )
         }
     ) {
