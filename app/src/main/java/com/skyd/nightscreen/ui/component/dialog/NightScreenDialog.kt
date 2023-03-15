@@ -1,23 +1,34 @@
 package com.skyd.nightscreen.ui.component.dialog
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.appContext
+import com.skyd.nightscreen.ui.NightScreenReceiver
 import com.skyd.nightscreen.ui.activity.MainActivity
 import com.skyd.nightscreen.ui.component.alphaRange
 import com.skyd.nightscreen.ui.component.screenAlpha
 import com.skyd.nightscreen.ui.component.showNightScreenLayer
+import com.skyd.nightscreen.ui.screen.home.HOME_SCREEN_ROUTE
+import com.skyd.nightscreen.ui.screen.home.REQUEST_PERMISSION
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 import java.lang.Float.max
 import java.lang.Float.min
 
+var dialogIsShowing = false
+    private set
+var dialog: AlertDialog? = null
+    private set
 
 fun getNightScreenDialog(c: Context? = null): AlertDialog {
     val context = c ?: ContextThemeWrapper(appContext, R.style.Theme_NightScreen)
@@ -31,6 +42,15 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
         .setView(view)
         .create().apply {
             window?.attributes?.dimAmount = 0f
+        }.apply {
+            setOnShowListener {
+                dialogIsShowing = true
+                dialog = this
+            }
+            setOnDismissListener {
+                dialogIsShowing = false
+                dialog = null
+            }
         }
 
     val ivSettings = view.findViewById<Button>(R.id.btn_settings_night_screen_dialog)
@@ -61,4 +81,27 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
     showNightScreenLayer = true
 
     return dialog
+}
+
+@SuppressLint("LaunchActivityFromNotification")
+fun checkDialogPermissionAndShow(context: Context) {
+    if (XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW)) {
+        NightScreenReceiver.sendBroadcast(
+            context = context,
+            action = NightScreenReceiver.SHOW_DIALOG_ACTION
+        )
+    } else {
+        context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION=SYSTEM_ALERT_WINDOW".toUri(),
+                context,
+                MainActivity::class.java
+            ).apply {
+                action =
+                    "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION=SYSTEM_ALERT_WINDOW"
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        )
+    }
 }

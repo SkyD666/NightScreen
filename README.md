@@ -5,16 +5,19 @@
     <h1>🌙 Night Screen</h1>
     <p>
         <a href="https://github.com/SkyD666/NightScreen/releases/latest" style="text-decoration:none">
-            <img src="https://img.shields.io/github/v/release/SkyD666/NightScreen?display_name=release" alt="GitHub release (latest by date)"/>
+            <img src="https://img.shields.io/github/v/release/SkyD666/NightScreen?display_name=release&style=for-the-badge" alt="GitHub release (latest by date)"/>
         </a>
         <a href="https://github.com/SkyD666/NightScreen/releases/latest" style="text-decoration:none" >
-            <img src="https://img.shields.io/github/downloads/SkyD666/NightScreen/total" alt="GitHub all downloads"/>
+            <img src="https://img.shields.io/github/downloads/SkyD666/NightScreen/total?style=for-the-badge" alt="GitHub all downloads"/>
         </a>
         <a href="https://img.shields.io/badge/Android-7.0%2B-brightgreen" style="text-decoration:none" >
-            <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen" alt="Android version"/>
+            <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge" alt="Android version"/>
         </a>
         <a href="https://github.com/SkyD666/Imomoe/blob/master/LICENSE" style="text-decoration:none" >
-            <img src="https://img.shields.io/github/license/SkyD666/NightScreen" alt="GitHub license"/>
+            <img src="https://img.shields.io/github/license/SkyD666/NightScreen?style=for-the-badge" alt="GitHub license"/>
+        </a>
+        <a href="https://discord.gg/pEWEjeJTa3" style="text-decoration:none" >
+            <img src="https://img.shields.io/discord/982522006819991622?color=5865F2&label=Discord&logo=discord&logoColor=white&style=for-the-badge" alt="Discord"/>
         </a>
 	</p>
     <p>
@@ -24,6 +27,7 @@
         软件完全采用<b> Material You </b>设计风格。除全局 Dialog 外，<b>完全使用 Jetpack Compose </b>开发。
     </p>
 </div>
+
 
 
 ## 💡主要功能

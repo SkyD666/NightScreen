@@ -1,6 +1,5 @@
 package com.skyd.nightscreen.ui.screen.home
 
-import android.os.Bundle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,7 +19,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hjq.permissions.Permission
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ext.plus
@@ -28,7 +26,7 @@ import com.skyd.nightscreen.ext.requestAllPermissions
 import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
 import com.skyd.nightscreen.ui.component.NSTopBar
 import com.skyd.nightscreen.ui.component.NSTopBarStyle
-import com.skyd.nightscreen.ui.component.dialog.getNightScreenDialog
+import com.skyd.nightscreen.ui.component.dialog.checkDialogPermissionAndShow
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
@@ -37,15 +35,15 @@ const val HOME_SCREEN_ROUTE = "homeScreen"
 const val REQUEST_PERMISSION = "requestPermission"
 
 @Composable
-fun HomeScreen(arguments: Bundle? = null) {
+fun HomeScreen(requestPermission: String? = null) {
     val navController = LocalNavController.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val context = LocalContext.current
     SideEffect {
-        arguments ?: return@SideEffect
-        if (arguments.getString(REQUEST_PERMISSION) == Permission.SYSTEM_ALERT_WINDOW) {
+        requestPermission ?: return@SideEffect
+        if (requestPermission == "SYSTEM_ALERT_WINDOW") {
             context.activity.requestSystemAlertWindowPermission(onGranted = {
-                getNightScreenDialog(context).show()
+                checkDialogPermissionAndShow(context)
             })
         }
     }
@@ -56,6 +54,7 @@ fun HomeScreen(arguments: Bundle? = null) {
                 title = {
                     Text(text = stringResource(R.string.app_name))
                 },
+                navigationIcon = {},
                 scrollBehavior = scrollBehavior
             )
         }
@@ -71,7 +70,7 @@ fun HomeScreen(arguments: Bundle? = null) {
                     imageVector = Icons.Default.PlayArrow,
                     text = stringResource(id = R.string.run_night_screen),
                 ) {
-                    getNightScreenDialog(context).show()
+                    checkDialogPermissionAndShow(context)
                 }
             }
             item {

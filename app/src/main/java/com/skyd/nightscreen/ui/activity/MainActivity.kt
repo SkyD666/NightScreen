@@ -10,7 +10,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
-import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -51,19 +50,17 @@ class MainActivity : BaseComposeActivity() {
                         startDestination = HOME_SCREEN_ROUTE,
                     ) {
                         composable(
-                            route = HOME_SCREEN_ROUTE,
-                            arguments = listOf(
-                                navArgument(REQUEST_PERMISSION) {
-//                                    nullable = true
-                                    type = NavType.StringType
-                                }
-                            ),
-                            deepLinks = listOf(navDeepLink {
-                                uriPattern =
-                                    "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION={$REQUEST_PERMISSION}"
-                            })
+                            route = HOME_SCREEN_ROUTE
                         ) {
-                            HomeScreen(it.arguments)
+                            HomeScreen()
+                        }
+                        composable(
+                            route = "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION={$REQUEST_PERMISSION}",
+                            arguments = listOf(
+                                navArgument(REQUEST_PERMISSION) { defaultValue = "" }
+                            ),
+                        ) {
+                            HomeScreen(it.arguments?.getString(REQUEST_PERMISSION))
                         }
                         composable(
                             route = SETTINGS_SCREEN_ROUTE,
@@ -79,12 +76,13 @@ class MainActivity : BaseComposeActivity() {
                         }
                     }
                 }
+                navController.handleDeepLink(intent)
             }
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        navController.handleDeepLink(intent)
+        navController.navigate(intent?.action ?: return)
     }
 }

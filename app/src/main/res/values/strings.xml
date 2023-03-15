@@ -8,7 +8,7 @@
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="change_light">调节亮度</string>
-    <string name="power_off">关闭</string>
+    <string name="power_off">关闭夜屏</string>
     <string name="settings_screen_choice_a_color">选择一个颜色</string>
     <string name="settings_screen_screen_color">屏幕颜色</string>
     <string name="settings_screen_screen_alpha">透明度</string>
@@ -31,4 +31,5 @@
     <string name="request_permissions_success">申请权限成功</string>
     <string name="alert_window_permission">悬浮窗</string>
     <string name="screen_brightness_permission">更改屏幕亮度</string>
+    <string name="night_screen_is_running">夜屏已启动…</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.skyd.nightscreen.appContext
 import com.skyd.nightscreen.ext.editor
 import com.skyd.nightscreen.ext.sharedPreferences
+import com.skyd.nightscreen.ui.NightScreenReceiver
 
 
 var showNightScreenLayer: Boolean = false
@@ -14,8 +15,10 @@ var showNightScreenLayer: Boolean = false
             layerView.lowestScreenBrightness = lowestScreenBrightness
             layerView.keepScreenOn = keepScreenOn
             layerView.updateColor(calculatedColor)
+            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_NOTIFICATION_ACTION)
         } else {
             layerView.gone()
+            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.CLOSE_NOTIFICATION_ACTION)
         }
         field = value
     }

@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
-import com.skyd.nightscreen.ext.lifecycleIsResumed
+import com.skyd.nightscreen.ext.popBackStackWithLifecycle
 import com.skyd.nightscreen.ui.local.LocalNavController
 
 enum class NSTopBarStyle {
@@ -95,11 +95,7 @@ fun TopBarIcon(
 @Composable
 fun BackIcon() {
     val navController = LocalNavController.current
-    BackIcon {
-        if (navController.currentBackStackEntry?.lifecycleIsResumed() == true) {
-            navController.popBackStack()
-        }
-    }
+    BackIcon { navController.popBackStackWithLifecycle() }
 }
 
 @Composable

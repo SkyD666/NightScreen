@@ -32,6 +32,7 @@
                 style="@style/Widget.App.Button.TextButton.IconOnly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/settings"
                 app:icon="@drawable/ic_settings_24"
                 app:iconSize="24dp" />
 
@@ -41,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
+                android:contentDescription="@string/power_off"
                 app:icon="@drawable/ic_power_settings_new_24"
                 app:iconSize="24dp" />
         </LinearLayout>
