@@ -10,8 +10,8 @@
         <a href="https://github.com/SkyD666/NightScreen/releases/latest" style="text-decoration:none" >
             <img src="https://img.shields.io/github/downloads/SkyD666/NightScreen/total?style=for-the-badge" alt="GitHub all downloads"/>
         </a>
-        <a href="https://img.shields.io/badge/Android-7.0%2B-brightgreen" style="text-decoration:none" >
-            <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge" alt="Android version"/>
+        <a href="https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge&logo=android&logoColor=white" style="text-decoration:none" >
+            <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge&logo=android&logoColor=white" alt="Android version"/>
         </a>
         <a href="https://github.com/SkyD666/Imomoe/blob/master/LICENSE" style="text-decoration:none" >
             <img src="https://img.shields.io/github/license/SkyD666/NightScreen?style=for-the-badge" alt="GitHub license"/>
@@ -30,6 +30,7 @@
 
 
 
+
 ## 💡主要功能
 
 - 支持从系统下拉**任务栏开关启动**
@@ -43,12 +44,12 @@
 ![ic_home_screen](image/screenshot/ic_home_screen.jpg) ![ic_home_screen](image/screenshot/ic_nignt_screen_dialog.jpg)
 ![ic_settings_screen](image/screenshot/ic_settings_screen.jpg) ![ic_alpha_dialog](image/screenshot/ic_alpha_dialog.jpg)
 ![ic_color_dialog](image/screenshot/ic_color_dialog.jpg) ![ic_about_screen](image/screenshot/ic_about_screen.jpg)
-![ic_tile](image/screenshot/ic_tile.png)
+![ic_tile](image/screenshot/ic_tile.png) ![ic_notification](image/screenshot/ic_notification.png)
 
 ## 🛠主要技术栈
 
 - Jetpack **Compose**
-- **Material Design 3** (You)
+- **Material You**
 - **ViewModel**
 - **Hilt**
 - Splash Screen

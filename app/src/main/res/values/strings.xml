@@ -30,6 +30,7 @@
     <string name="request_permission_failed">申请%s权限失败</string>
     <string name="request_permissions_success">申请权限成功</string>
     <string name="alert_window_permission">悬浮窗</string>
+    <string name="post_notification_permission">通知栏</string>
     <string name="screen_brightness_permission">更改屏幕亮度</string>
     <string name="night_screen_is_running">夜屏已启动…</string>
 </resources>

@@ -82,7 +82,10 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
 
 @SuppressLint("LaunchActivityFromNotification")
 fun checkDialogPermissionAndShow(context: Context) {
-    if (XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW)) {
+    if (XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW) &&
+        XXPermissions.isGranted(context, Permission.POST_NOTIFICATIONS) &&
+        XXPermissions.isGranted(context, Permission.NOTIFICATION_SERVICE)
+    ) {
         NightScreenReceiver.sendBroadcast(
             context = context,
             action = NightScreenReceiver.SHOW_DIALOG_ACTION

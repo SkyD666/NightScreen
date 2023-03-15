@@ -14,8 +14,9 @@ import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.skyd.nightscreen.ext.requestAllPermissions
 import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
-import com.skyd.nightscreen.ui.component.dialog.checkDialogPermissionAndShow
+import com.skyd.nightscreen.ui.NightScreenReceiver
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.about.AboutScreen
@@ -38,9 +39,9 @@ class MainActivity : BaseComposeActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         installSplashScreen()
+
+        super.onCreate(savedInstanceState)
 
         setContent {
             val navController = rememberAnimatedNavController()
@@ -95,7 +96,11 @@ class MainActivity : BaseComposeActivity() {
 
     private fun requestPermission() {
         requestSystemAlertWindowPermission(onGranted = {
-            checkDialogPermissionAndShow(this@MainActivity)
+            NightScreenReceiver.sendBroadcast(
+                context = this,
+                action = NightScreenReceiver.SHOW_DIALOG_ACTION
+            )
+            requestAllPermissions()
         })
     }
 }
