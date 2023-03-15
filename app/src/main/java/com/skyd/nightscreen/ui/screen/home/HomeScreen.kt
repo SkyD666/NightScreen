@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,6 +18,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ext.plus
@@ -30,23 +30,16 @@ import com.skyd.nightscreen.ui.component.dialog.checkDialogPermissionAndShow
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 const val HOME_SCREEN_ROUTE = "homeScreen"
-const val REQUEST_PERMISSION = "requestPermission"
 
 @Composable
-fun HomeScreen(requestPermission: String? = null) {
+fun HomeScreen() {
     val navController = LocalNavController.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val context = LocalContext.current
-    SideEffect {
-        requestPermission ?: return@SideEffect
-        if (requestPermission == "SYSTEM_ALERT_WINDOW") {
-            context.activity.requestSystemAlertWindowPermission(onGranted = {
-                checkDialogPermissionAndShow(context)
-            })
-        }
-    }
+
     Scaffold(
         topBar = {
             NSTopBar(

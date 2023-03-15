@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import com.hjq.permissions.Permission
@@ -19,8 +18,6 @@ import com.skyd.nightscreen.ui.activity.MainActivity
 import com.skyd.nightscreen.ui.component.alphaRange
 import com.skyd.nightscreen.ui.component.screenAlpha
 import com.skyd.nightscreen.ui.component.showNightScreenLayer
-import com.skyd.nightscreen.ui.screen.home.HOME_SCREEN_ROUTE
-import com.skyd.nightscreen.ui.screen.home.REQUEST_PERMISSION
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 import java.lang.Float.max
 import java.lang.Float.min
@@ -92,14 +89,8 @@ fun checkDialogPermissionAndShow(context: Context) {
         )
     } else {
         context.startActivity(
-            Intent(
-                Intent.ACTION_VIEW,
-                "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION=SYSTEM_ALERT_WINDOW".toUri(),
-                context,
-                MainActivity::class.java
-            ).apply {
-                action =
-                    "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION=SYSTEM_ALERT_WINDOW"
+            Intent(context, MainActivity::class.java).apply {
+                action = MainActivity.REQUEST_PERMISSION_ACTION
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         )

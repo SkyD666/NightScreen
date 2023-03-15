@@ -35,7 +35,11 @@ fun Activity.requestAllPermissions(
 ) {
     XXPermissions
         .with(this)
-        .permission(Permission.SYSTEM_ALERT_WINDOW, Permission.NOTIFICATION_SERVICE)
+        .permission(
+            Permission.SYSTEM_ALERT_WINDOW,
+            Permission.NOTIFICATION_SERVICE,
+            Permission.POST_NOTIFICATIONS
+        )
         .requestPermissions {
             onGranted(onGranted)
             onDenied(onDenied)

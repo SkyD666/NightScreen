@@ -29,11 +29,11 @@ class OnPermissionsCallback : com.hjq.permissions.OnPermissionCallback {
         this.onDenied = denied
     }
 
-    override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+    override fun onGranted(permissions: MutableList<String>, all: Boolean) {
         onGranted?.invoke(permissions, all)
     }
 
-    override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+    override fun onDenied(permissions: MutableList<String>, never: Boolean) {
         onDenied?.invoke(permissions, never)
     }
 }
@@ -53,11 +53,11 @@ class OnSinglePermissionCallback : com.hjq.permissions.OnPermissionCallback {
         this.onSingleDenied = onSingleDenied
     }
 
-    override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
+    override fun onGranted(permissions: MutableList<String>, all: Boolean) {
         onSingleGranted?.invoke()
     }
 
-    override fun onDenied(permissions: MutableList<String>?, never: Boolean) {
+    override fun onDenied(permissions: MutableList<String>, never: Boolean) {
         onSingleDenied?.invoke(never)
     }
 }

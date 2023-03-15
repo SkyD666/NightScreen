@@ -10,17 +10,17 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
-import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
+import com.skyd.nightscreen.ui.component.dialog.checkDialogPermissionAndShow
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.about.AboutScreen
 import com.skyd.nightscreen.ui.screen.home.HOME_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.home.HomeScreen
-import com.skyd.nightscreen.ui.screen.home.REQUEST_PERMISSION
 import com.skyd.nightscreen.ui.screen.license.LICENSE_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.license.LicenseScreen
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
@@ -28,8 +28,13 @@ import com.skyd.nightscreen.ui.screen.settings.SettingsScreen
 import com.skyd.nightscreen.ui.theme.NightScreenTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : BaseComposeActivity() {
+    companion object {
+        const val REQUEST_PERMISSION_ACTION = "requestPermission"
+    }
+
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,18 +54,8 @@ class MainActivity : BaseComposeActivity() {
                         navController = navController,
                         startDestination = HOME_SCREEN_ROUTE,
                     ) {
-                        composable(
-                            route = HOME_SCREEN_ROUTE
-                        ) {
+                        composable(HOME_SCREEN_ROUTE) {
                             HomeScreen()
-                        }
-                        composable(
-                            route = "$HOME_SCREEN_ROUTE?$REQUEST_PERMISSION={$REQUEST_PERMISSION}",
-                            arguments = listOf(
-                                navArgument(REQUEST_PERMISSION) { defaultValue = "" }
-                            ),
-                        ) {
-                            HomeScreen(it.arguments?.getString(REQUEST_PERMISSION))
                         }
                         composable(
                             route = SETTINGS_SCREEN_ROUTE,
@@ -76,13 +71,31 @@ class MainActivity : BaseComposeActivity() {
                         }
                     }
                 }
-                navController.handleDeepLink(intent)
+                doIntentAction(intent?.action)
             }
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        navController.navigate(intent?.action ?: return)
+        doIntentAction(intent?.action)
+    }
+
+    private fun doIntentAction(action: String?) {
+        action ?: return
+        if (action == REQUEST_PERMISSION_ACTION) {
+            requestPermission()
+        } else if (action == SETTINGS_SCREEN_ROUTE) {
+            navController.navigate(SETTINGS_SCREEN_ROUTE) {
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    }
+
+    private fun requestPermission() {
+        requestSystemAlertWindowPermission(onGranted = {
+            checkDialogPermissionAndShow(this@MainActivity)
+        })
     }
 }

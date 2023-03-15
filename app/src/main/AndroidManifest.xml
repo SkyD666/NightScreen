@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.skyd.nightscreen">
 
+    <uses-permission android:name="android.permission.NOTIFICATION_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -43,7 +44,7 @@
         <receiver
             android:name="com.skyd.nightscreen.ui.NightScreenReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
     </application>
 
 </manifest>
