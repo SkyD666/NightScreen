@@ -10,8 +10,8 @@
         <a href="https://github.com/SkyD666/NightScreen/releases/latest" style="text-decoration:none" >
             <img src="https://img.shields.io/github/downloads/SkyD666/NightScreen/total?style=for-the-badge" alt="GitHub all downloads"/>
         </a>
-        <a href="https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge&logo=android&logoColor=white" style="text-decoration:none" >
-            <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen?style=for-the-badge&logo=android&logoColor=white" alt="Android version"/>
+        <a href="https://www.android.com/versions/nougat-7-0" style="text-decoration:none" >
+            <img src="https://img.shields.io/badge/Android 7.0+-brightgreen?style=for-the-badge&logo=android&logoColor=white" alt="Android version"/>
         </a>
         <a href="https://github.com/SkyD666/Imomoe/blob/master/LICENSE" style="text-decoration:none" >
             <img src="https://img.shields.io/github/license/SkyD666/NightScreen?style=for-the-badge" alt="GitHub license"/>
@@ -30,13 +30,13 @@
 
 
 
-
 ## 💡主要功能
 
 - 支持从系统下拉**任务栏开关启动**
 - 支持调整**屏幕颜色**
 - 支持屏幕**常亮**
 - 支持**自动降低系统亮度**
+- 支持运行时通知栏显示**常驻通知**
 - ……
 
 ## 📸应用截图
