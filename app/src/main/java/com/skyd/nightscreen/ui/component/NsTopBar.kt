@@ -1,41 +1,42 @@
 package com.skyd.nightscreen.ui.component
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.largeTopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ext.popBackStackWithLifecycle
 import com.skyd.nightscreen.ui.local.LocalNavController
 
-enum class NSTopBarStyle {
+enum class NsTopBarStyle {
     Small, Large
 }
 
 @Composable
-fun NSTopBar(
-    style: NSTopBarStyle = NSTopBarStyle.Small,
+fun NsTopBar(
+    style: NsTopBarStyle = NsTopBarStyle.Small,
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = { BackIcon() },
     actions: @Composable RowScope.() -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     val colors = when (style) {
-        NSTopBarStyle.Small -> topAppBarColors()
-        NSTopBarStyle.Large -> largeTopAppBarColors()
+        NsTopBarStyle.Small -> topAppBarColors()
+        NsTopBarStyle.Large -> largeTopAppBarColors()
     }
     when (style) {
-        NSTopBarStyle.Small -> {
+        NsTopBarStyle.Small -> {
             TopAppBar(
                 title = title,
                 navigationIcon = navigationIcon,
@@ -44,7 +45,7 @@ fun NSTopBar(
                 scrollBehavior = scrollBehavior
             )
         }
-        NSTopBarStyle.Large -> {
+        NsTopBarStyle.Large -> {
             LargeTopAppBar(
                 title = title,
                 navigationIcon = navigationIcon,
@@ -64,14 +65,13 @@ fun TopBarIcon(
     tint: Color = LocalContentColor.current,
     contentDescription: String?,
 ) {
-    IconButton(onClick = onClick) {
-        Icon(
-            modifier = modifier.size(24.dp),
-            painter = painter,
-            tint = tint,
-            contentDescription = contentDescription
-        )
-    }
+    NsIconButton(
+        modifier = modifier,
+        painter = painter,
+        tint = tint,
+        contentDescription = contentDescription,
+        onClick = onClick
+    )
 }
 
 @Composable
@@ -82,14 +82,13 @@ fun TopBarIcon(
     tint: Color = LocalContentColor.current,
     contentDescription: String?,
 ) {
-    IconButton(onClick = onClick) {
-        Icon(
-            modifier = modifier.size(24.dp),
-            imageVector = imageVector,
-            tint = tint,
-            contentDescription = contentDescription
-        )
-    }
+    NsIconButton(
+        modifier = modifier,
+        imageVector = imageVector,
+        tint = tint,
+        contentDescription = contentDescription,
+        onClick = onClick
+    )
 }
 
 @Composable

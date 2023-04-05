@@ -5,17 +5,18 @@ import android.view.SoundEffectConstants
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -27,12 +28,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.skyd.nightscreen.R
+import com.skyd.nightscreen.bean.OtherWorksBean
 import com.skyd.nightscreen.config.Const
 import com.skyd.nightscreen.ui.component.Centered
-import com.skyd.nightscreen.ui.component.NSTopBar
-import com.skyd.nightscreen.ui.component.NSTopBarStyle
+import com.skyd.nightscreen.ui.component.NsTopBar
+import com.skyd.nightscreen.ui.component.NsTopBarStyle
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.license.LICENSE_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.shape.ReuleauxTriangleShape
@@ -48,8 +52,8 @@ fun AboutScreen() {
     val context = LocalContext.current
     Scaffold(
         topBar = {
-            NSTopBar(
-                style = NSTopBarStyle.Large,
+            NsTopBar(
+                style = NsTopBarStyle.Large,
                 title = {
                     Text(text = stringResource(R.string.about))
                 },
@@ -57,11 +61,15 @@ fun AboutScreen() {
             )
         }
     ) {
+        val otherWorksList = rememberOtherWorksList()
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(horizontal = 16.dp)
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = it
+            contentPadding = it,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (context.screenIsLand) {
                 item {
@@ -78,6 +86,16 @@ fun AboutScreen() {
                     AboutItemList()
                 }
             }
+
+            item {
+                Text(
+                    text = stringResource(R.string.about_screen_other_works),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
+            itemsIndexed(items = otherWorksList) { _, item ->
+                OtherWorksItem(data = item)
+            }
         }
     }
 }
@@ -89,25 +107,28 @@ private fun AboutItemList(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(vertical = 20.dp)
     ) {
-        Row {
-            val navController = LocalNavController.current
-            AboutItem(
-                modifier = Modifier.weight(1f),
-                painter = painterResource(id = R.drawable.ic_github_24),
-                text = stringResource(id = R.string.github)
-            ) {
-                openBrowser(Const.GITHUB_REPOSITORY)
-            }
-            Spacer(modifier = Modifier.width(20.dp))
-            AboutItem(
-                modifier = Modifier.weight(1f),
-                painter = rememberVectorPainter(image = Icons.Default.Description),
-                text = stringResource(id = R.string.license)
-            ) {
-                navController.navigate(LICENSE_SCREEN_ROUTE)
-            }
+        val navController = LocalNavController.current
+        AboutItem(
+            painter = painterResource(id = R.drawable.ic_github_24),
+            text = stringResource(id = R.string.about_screen_goto_github_repo)
+        ) {
+            openBrowser(Const.GITHUB_REPOSITORY)
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        AboutItem(
+            painter = painterResource(id = R.drawable.ic_discord_24),
+            text = stringResource(id = R.string.about_screen_join_discord)
+        ) {
+            openBrowser(Const.JOIN_DISCORD)
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        AboutItem(
+            painter = rememberVectorPainter(image = Icons.Default.Description),
+            text = stringResource(id = R.string.license)
+        ) {
+            navController.navigate(LICENSE_SCREEN_ROUTE)
         }
     }
 }
@@ -120,21 +141,21 @@ private fun AboutItem(
     onClick: (() -> Unit)? = null
 ) {
     Card(modifier = modifier) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick?.invoke() }
-                .padding(horizontal = 15.dp, vertical = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                modifier = Modifier.size(30.dp),
-                painter = painter, contentDescription = null
-            )
+            Icon(painter = painter, contentDescription = null)
             Text(
-                modifier = Modifier.padding(top = 10.dp),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .basicMarquee(iterations = Int.MAX_VALUE),
                 text = text,
                 style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
                 maxLines = 1
             )
         }
@@ -158,7 +179,7 @@ private fun AppIconArea(modifier: Modifier = Modifier) {
 
         Box(
             modifier = Modifier
-                .padding(top = 50.dp, bottom = 50.dp)
+                .padding(top = 50.dp, bottom = 30.dp)
                 .fillMaxWidth(0.6f)
                 .aspectRatio(1f)
                 .background(
@@ -189,9 +210,7 @@ private fun AppIconArea(modifier: Modifier = Modifier) {
                         val badgeNumber = remember { getAppVersionName() }
                         Text(
                             badgeNumber,
-                            modifier = Modifier.semantics {
-                                contentDescription = "$badgeNumber new notifications"
-                            }
+                            modifier = Modifier.semantics { contentDescription = badgeNumber }
                         )
                     }
                 }
@@ -200,9 +219,68 @@ private fun AppIconArea(modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxSize(),
                     painter = painterResource(id = R.drawable.ic_icon_128),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = Color.White)
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary)
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun rememberOtherWorksList(): List<OtherWorksBean> {
+    val context = LocalContext.current
+    return remember {
+        listOf(
+            OtherWorksBean(
+                name = context.getString(R.string.about_screen_other_works_rays_name),
+                icon = R.drawable.ic_rays,
+                description = context.getString(R.string.about_screen_other_works_rays_description),
+                url = context.getString(R.string.about_screen_other_works_rays_url)
+            ),
+            OtherWorksBean(
+                name = context.getString(R.string.about_screen_other_works_raca_name),
+                icon = R.drawable.ic_raca,
+                description = context.getString(R.string.about_screen_other_works_raca_description),
+                url = context.getString(R.string.about_screen_other_works_raca_url)
+            ),
+        )
+    }
+}
+
+@Composable
+private fun OtherWorksItem(
+    modifier: Modifier = Modifier,
+    data: OtherWorksBean,
+) {
+    Card(
+        modifier = modifier
+            .padding(vertical = 10.dp)
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .clickable { openBrowser(data.url) }
+                .padding(15.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AsyncImage(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .aspectRatio(1f),
+                    model = data.icon,
+                    contentDescription = data.name
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = data.name,
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+            Text(
+                modifier = Modifier.padding(top = 6.dp),
+                text = data.description,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }

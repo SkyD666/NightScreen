@@ -18,19 +18,16 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.ext.activity
 import com.skyd.nightscreen.ext.plus
 import com.skyd.nightscreen.ext.requestAllPermissions
-import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
-import com.skyd.nightscreen.ui.component.NSTopBar
-import com.skyd.nightscreen.ui.component.NSTopBarStyle
+import com.skyd.nightscreen.ui.component.NsTopBar
+import com.skyd.nightscreen.ui.component.NsTopBarStyle
 import com.skyd.nightscreen.ui.component.dialog.checkDialogPermissionAndShow
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
-import kotlinx.coroutines.flow.MutableSharedFlow
 
 const val HOME_SCREEN_ROUTE = "homeScreen"
 
@@ -42,8 +39,8 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = {
-            NSTopBar(
-                style = NSTopBarStyle.Large,
+            NsTopBar(
+                style = NsTopBarStyle.Large,
                 title = {
                     Text(text = stringResource(R.string.app_name))
                 },

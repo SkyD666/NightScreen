@@ -28,8 +28,8 @@ fun SettingsScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         topBar = {
-            NSTopBar(
-                style = NSTopBarStyle.Large,
+            NsTopBar(
+                style = NsTopBarStyle.Large,
                 title = {
                     Text(text = stringResource(R.string.settings))
                 },

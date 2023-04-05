@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.bean.LicenseBean
 import com.skyd.nightscreen.ext.plus
-import com.skyd.nightscreen.ui.component.NSTopBar
-import com.skyd.nightscreen.ui.component.NSTopBarStyle
+import com.skyd.nightscreen.ui.component.NsTopBar
+import com.skyd.nightscreen.ui.component.NsTopBarStyle
 import com.skyd.nightscreen.util.CommonUtil.openBrowser
 
 const val LICENSE_SCREEN_ROUTE = "licenseScreen"
@@ -26,8 +26,8 @@ fun LicenseScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         topBar = {
-            NSTopBar(
-                style = NSTopBarStyle.Large,
+            NsTopBar(
+                style = NsTopBarStyle.Large,
                 title = {
                     Text(text = stringResource(R.string.license))
                 },
