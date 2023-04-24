@@ -67,11 +67,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         viewBinding true
@@ -88,6 +88,7 @@ android {
             excludes += 'okhttp3/internal/publicsuffix/NOTICE'
         }
     }
+    namespace 'com.skyd.nightscreen'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -116,8 +117,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.activity:activity-compose:1.7.0'
     implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "com.google.android.material:material:1.9.0-beta01"
-    implementation "com.github.getActivity:XXPermissions:16.8"
+    implementation "com.google.android.material:material:1.9.0-rc01"
+    implementation "com.github.getActivity:XXPermissions:18.0"
     implementation "com.google.dagger:hilt-android:2.45"
     kapt "com.google.dagger:hilt-android-compiler:2.45"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
