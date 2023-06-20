@@ -3,7 +3,12 @@ package com.skyd.nightscreen.ext
 import android.os.Bundle
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.*
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 
 fun NavController.navigate(
     route: String,
@@ -27,7 +32,7 @@ fun NavController.navigate(
 }
 
 fun NavBackStackEntry.lifecycleIsResumed() =
-    this.lifecycle.currentState == Lifecycle.State.RESUMED
+    this.getLifecycle().currentState == Lifecycle.State.RESUMED
 
 fun NavController.popBackStackWithLifecycle() {
     if (currentBackStackEntry?.lifecycleIsResumed() == true) {
