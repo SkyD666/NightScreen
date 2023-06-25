@@ -15,8 +15,8 @@ android {
         applicationId "com.skyd.nightscreen"
         minSdk 24
         targetSdk 33
-        versionCode 8
-        versionName "1.8"
+        versionCode 9
+        versionName "1.8-beta03"
         flavorDimensions "versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -116,6 +116,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.activity:activity-compose:1.7.2'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "com.google.android.material:material:1.9.0"
     implementation "com.github.getActivity:XXPermissions:18.0"

@@ -9,6 +9,7 @@ import com.skyd.nightscreen.ui.component.showToast
 import com.skyd.nightscreen.ui.listener.dsl.requestPermissions
 import com.skyd.nightscreen.ui.listener.dsl.requestSinglePermission
 
+
 fun Activity.requestSystemAlertWindowPermission(
     onDenied: (never: Boolean) -> Unit = { getString(R.string.no_permission_can_not_run).showToast() },
     onGranted: () -> Unit = {}
@@ -43,18 +44,20 @@ fun Activity.requestAllPermissions(
     onGranted: (permissions: MutableList<String>?, all: Boolean) -> Unit = { permissions, all ->
         if (all) getString(R.string.request_permissions_success).showToast()
         if (permissions?.contains(Permission.POST_NOTIFICATIONS) == true &&
-            permissions.contains(Permission.NOTIFICATION_SERVICE)
+            permissions.contains(Permission.NOTIFICATION_SERVICE) &&
+            permissions.contains(Permission.WRITE_SETTINGS)
         ) {
             NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_NOTIFICATION_ACTION)
         }
-    }
+    },
 ) {
     XXPermissions
         .with(this)
         .permission(
             Permission.SYSTEM_ALERT_WINDOW,
             Permission.POST_NOTIFICATIONS,
-            Permission.NOTIFICATION_SERVICE
+            Permission.NOTIFICATION_SERVICE,
+            Permission.WRITE_SETTINGS,
         )
         .requestPermissions {
             onGranted(onGranted)

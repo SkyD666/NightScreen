@@ -27,9 +27,10 @@
     <string name="settings_screen_lowest_screen_brightness">Lowest screen brightness</string>
     <string name="settings_screen_lowest_screen_brightness_description">Turn down the screen brightness after startup</string>
     <string name="no_permission_can_not_lowest_brightness">No permission to lower the screen brightness</string>
-    <string name="request_permissions">Request permission</string>
+    <string name="request_permissions">Request permissions</string>
     <string name="request_permission_failed">Failed to request %s permission</string>
-    <string name="request_permissions_success">Request permission successfully</string>
+    <string name="no_accessibility_permission">No accessibility permission</string>
+    <string name="request_permissions_success">Request permissions successfully</string>
     <string name="alert_window_permission">alert window</string>
     <string name="post_notification_permission">post notification</string>
     <string name="screen_brightness_permission">screen brightness</string>
@@ -41,4 +42,6 @@
     <string name="about_screen_other_works_raca_description">A tool to record and search abstract passages and mini-essays in the comments section locally. 🤗 Are you still having trouble remembering the content of your mini-essay and facing the embarrassing situation of forgetting the front, middle and back? Using this tool will help you record the mini-essays you come across and never worry about forgetting them again! 😋</string>
     <string name="about_screen_other_works_raca_url">https://github.com/SkyD666/Raca-Android</string>
     <string name="about_screen_other_works">Other works</string>
+    <string name="overlay_accessibility_service_label">Night Screen overlay</string>
+    <string name="accessibility_service_description">Use accessibility service to implement the function of reducing screen brightness</string>
 </resources>

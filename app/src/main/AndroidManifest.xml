@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.NOTIFICATION_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <application
         android:name="com.skyd.nightscreen.App"
         android:allowBackup="true"
@@ -30,7 +32,7 @@
         </activity>
 
         <service
-            android:name="com.skyd.nightscreen.ui.NightScreenService"
+            android:name="com.skyd.nightscreen.ui.service.NightScreenService"
             android:exported="true"
             android:icon="@drawable/ic_icon_128"
             android:label="@string/app_name"
@@ -44,6 +46,16 @@
             android:name="com.skyd.nightscreen.ui.NightScreenReceiver"
             android:enabled="true"
             android:exported="false" />
+
+        <service
+            android:name=".ui.service.OverlayAccessibilityService"
+            android:exported="true"
+            android:label="@string/overlay_accessibility_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

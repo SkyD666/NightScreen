@@ -19,6 +19,7 @@ import com.skyd.nightscreen.ui.component.alphaRange
 import com.skyd.nightscreen.ui.component.screenAlpha
 import com.skyd.nightscreen.ui.component.showNightScreenLayer
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
+import com.skyd.nightscreen.ui.service.isAccessibilityServiceRunning
 import java.lang.Float.max
 import java.lang.Float.min
 
@@ -84,7 +85,9 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
 fun checkDialogPermissionAndShow(context: Context) {
     if (XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW) &&
         XXPermissions.isGranted(context, Permission.POST_NOTIFICATIONS) &&
-        XXPermissions.isGranted(context, Permission.NOTIFICATION_SERVICE)
+        XXPermissions.isGranted(context, Permission.NOTIFICATION_SERVICE) &&
+        XXPermissions.isGranted(context, Permission.WRITE_SETTINGS) &&
+        isAccessibilityServiceRunning(context)
     ) {
         NightScreenReceiver.sendBroadcast(
             context = context,

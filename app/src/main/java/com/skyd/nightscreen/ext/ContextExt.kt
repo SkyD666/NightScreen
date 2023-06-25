@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 
 val Context.activity: Activity
@@ -21,6 +22,11 @@ val Context.activity: Activity
 val Context.fragmentActivity: FragmentActivity?
     get() {
         return this.activity as? FragmentActivity
+    }
+
+val Context.appCompatActivity: AppCompatActivity?
+    get() {
+        return this.activity as? AppCompatActivity
     }
 
 val Context.screenIsLand: Boolean

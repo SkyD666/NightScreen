@@ -6,22 +6,25 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Build
+import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import com.skyd.nightscreen.util.screenHeight
 import com.skyd.nightscreen.util.screenWidth
 
 
 class LayerView(context: Context) : View(context) {
-    private val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private val layoutParams = WindowManager.LayoutParams(
+    private val contentResolver = context.contentResolver
+
+    var layoutParams = WindowManager.LayoutParams(
         context.screenWidth,
         context.screenHeight,
         0,
         0,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY
         } else {
             WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY
         },
@@ -36,20 +39,9 @@ class LayerView(context: Context) : View(context) {
         gravity = Gravity.TOP or Gravity.START
         fitsSystemWindows = true
     }
+        private set
 
-    private var isVisible = false
     private var bgColor = Color.TRANSPARENT
-    var lowestScreenBrightness = false
-        set(value) {
-            if (value == field) return
-            layoutParams.screenBrightness =
-                if (value) 0f else WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
-            if (isVisible) {
-                windowManager.removeView(this)
-                windowManager.addView(this, layoutParams)
-            }
-            field = value
-        }
 
     fun updateColor(color: Int) {
         ObjectAnimator.ofInt(this, "backgroundColor", bgColor, color).apply {
@@ -60,14 +52,14 @@ class LayerView(context: Context) : View(context) {
 
     fun visible() {
         if (isVisible) return
-        windowManager.addView(this, layoutParams)
-        isVisible = true
+//        windowManager.addView(this, layoutParams)
+        visibility = VISIBLE
     }
 
     fun gone() {
         if (!isVisible) return
-        windowManager.removeView(this)
-        isVisible = false
+        visibility = GONE
+//        windowManager.removeView(this)
     }
 
     init {
