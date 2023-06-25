@@ -4,6 +4,7 @@ import android.app.Activity
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.R
+import com.skyd.nightscreen.appContext
 import com.skyd.nightscreen.ui.NightScreenReceiver
 import com.skyd.nightscreen.ui.component.showToast
 import com.skyd.nightscreen.ui.listener.dsl.requestPermissions
@@ -23,33 +24,33 @@ fun Activity.requestSystemAlertWindowPermission(
         }
 }
 
-fun Activity.requestAllPermissions(
-    onDenied: (permissions: MutableList<String>?, never: Boolean) -> Unit = { permissions, _ ->
+private val onDeniedCallback: (permissions: MutableList<String>?, never: Boolean) -> Unit =
+    { permissions, _ ->
         val permissionList = mutableSetOf<String>()
         if (permissions?.contains(Permission.SYSTEM_ALERT_WINDOW) == true) {
-            permissionList.add(getString(R.string.alert_window_permission))
+            permissionList.add(appContext.getString(R.string.alert_window_permission))
         }
         if (permissions?.contains(Permission.POST_NOTIFICATIONS) == true) {
-            permissionList.add(getString(R.string.post_notification_permission))
+            permissionList.add(appContext.getString(R.string.post_notification_permission))
         }
         if (permissions?.contains(Permission.NOTIFICATION_SERVICE) == true) {
-            permissionList.add(getString(R.string.post_notification_permission))
+            permissionList.add(appContext.getString(R.string.post_notification_permission))
         }
-        getString(
+        appContext.getString(
             R.string.request_permission_failed,
             if (permissionList.size > 1) permissionList.joinToString()
             else permissionList.firstOrNull().orEmpty()
         ).showToast()
-    },
-    onGranted: (permissions: MutableList<String>?, all: Boolean) -> Unit = { permissions, all ->
-        if (all) getString(R.string.request_permissions_success).showToast()
-        if (permissions?.contains(Permission.POST_NOTIFICATIONS) == true &&
-            permissions.contains(Permission.NOTIFICATION_SERVICE) &&
-            permissions.contains(Permission.WRITE_SETTINGS)
-        ) {
-            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_NOTIFICATION_ACTION)
-        }
-    },
+    }
+
+private val onGrantedCallback: (permissions: MutableList<String>?, all: Boolean) -> Unit =
+    { _, all ->
+        if (all) appContext.getString(R.string.request_permissions_success).showToast()
+    }
+
+fun Activity.requestAllPermissions(
+    onDenied: (permissions: MutableList<String>?, never: Boolean) -> Unit = onDeniedCallback,
+    onGranted: (permissions: MutableList<String>?, all: Boolean) -> Unit = onGrantedCallback,
 ) {
     XXPermissions
         .with(this)
@@ -63,4 +64,20 @@ fun Activity.requestAllPermissions(
             onGranted(onGranted)
             onDenied(onDenied)
         }
+}
+
+fun Activity.requestAllPermissionsAndShow(
+    onDenied: (permissions: MutableList<String>?, never: Boolean) -> Unit = onDeniedCallback,
+    onGranted: (permissions: MutableList<String>?, all: Boolean) -> Unit = { permissions, all ->
+        onGrantedCallback(permissions, all)
+        if (permissions?.contains(Permission.POST_NOTIFICATIONS) == true &&
+            permissions.contains(Permission.NOTIFICATION_SERVICE) &&
+            permissions.contains(Permission.WRITE_SETTINGS)
+        ) {
+            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION)
+            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_NOTIFICATION_ACTION)
+        }
+    },
+) {
+    requestAllPermissions(onDenied = onDenied, onGranted = onGranted)
 }

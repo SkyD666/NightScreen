@@ -1,33 +1,73 @@
 package com.skyd.nightscreen.ui.component
 
-import android.preference.Preference
+import android.content.Intent
+import android.os.Build
 import android.provider.Settings
+import android.view.WindowManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.appContext
 import com.skyd.nightscreen.ext.editor
 import com.skyd.nightscreen.ext.sharedPreferences
 import com.skyd.nightscreen.ui.NightScreenReceiver
+import com.skyd.nightscreen.ui.component.dialog.dialog
+import com.skyd.nightscreen.ui.component.dialog.dialogIsShowing
+import com.skyd.nightscreen.ui.component.dialog.getNightScreenDialog
+import com.skyd.nightscreen.ui.service.NightScreenService
 
+fun showDialogAndNightScreen() {
+    if (dialogIsShowing) return
+    if (XXPermissions.isGranted(appContext, Permission.SYSTEM_ALERT_WINDOW)) {
+        showNightScreen()
+        getNightScreenDialog().apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
+            } else {
+                window?.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+            }
+        }.show()
+    }
+}
+
+fun closeDialog() {
+    dialog?.dismiss()
+}
+
+fun showNightScreen() {
+    if (showNightScreenLayer) return
+    if (XXPermissions.isGranted(appContext, Permission.SYSTEM_ALERT_WINDOW)) {
+        showNightScreenLayer = true
+        layerView.visible()
+        if (lowestScreenBrightness) {
+            openLowestScreenBrightness = true
+        }
+        layerView.keepScreenOn = keepScreenOn
+        layerView.updateColor(calculatedColor)
+        appContext.sendBroadcast(
+            Intent(NightScreenService.ACTION_ACTIVE_TILE)
+                .setPackage(appContext.packageName)
+        )
+        NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_NOTIFICATION_ACTION)
+    }
+}
+
+fun closeNightScreen() {
+    if (!showNightScreenLayer) return
+    showNightScreenLayer = false
+    dialog?.dismiss()
+    layerView.gone()
+    openLowestScreenBrightness = false
+    appContext.sendBroadcast(
+        Intent(NightScreenService.ACTION_INACTIVE_TILE)
+            .setPackage(appContext.packageName)
+    )
+    NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.CLOSE_NOTIFICATION_ACTION)
+}
 
 var showNightScreenLayer: Boolean = false
-    set(value) {
-        if (value == field) return
-        if (value) {
-            layerView.visible()
-            if (lowestScreenBrightness) {
-                openLowestScreenBrightness = true
-            }
-            layerView.keepScreenOn = keepScreenOn
-            layerView.updateColor(calculatedColor)
-            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.SHOW_NOTIFICATION_ACTION)
-        } else {
-            layerView.gone()
-            openLowestScreenBrightness = false
-            NightScreenReceiver.sendBroadcast(action = NightScreenReceiver.CLOSE_NOTIFICATION_ACTION)
-        }
-        field = value
-    }
+    private set
 
 var screenAlpha: Float = sharedPreferences().getFloat("screenAlpha", 0.5f)
     set(value) {

@@ -15,8 +15,8 @@ android {
         applicationId "com.skyd.nightscreen"
         minSdk 24
         targetSdk 33
-        versionCode 9
-        versionName "1.8-beta03"
+        versionCode 10
+        versionName "1.8-beta04"
         flavorDimensions "versionName"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

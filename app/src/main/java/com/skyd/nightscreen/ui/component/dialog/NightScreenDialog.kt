@@ -16,8 +16,8 @@ import com.skyd.nightscreen.appContext
 import com.skyd.nightscreen.ui.NightScreenReceiver
 import com.skyd.nightscreen.ui.activity.MainActivity
 import com.skyd.nightscreen.ui.component.alphaRange
+import com.skyd.nightscreen.ui.component.closeNightScreen
 import com.skyd.nightscreen.ui.component.screenAlpha
-import com.skyd.nightscreen.ui.component.showNightScreenLayer
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.service.isAccessibilityServiceRunning
 import java.lang.Float.max
@@ -63,7 +63,7 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
         dialog.dismiss()
     }
     ivPowerOff.setOnClickListener {
-        showNightScreenLayer = false
+        closeNightScreen()
         dialog.dismiss()
     }
     slider.valueFrom = 1f - alphaRange.endInclusive
@@ -76,13 +76,11 @@ fun getNightScreenDialog(c: Context? = null): AlertDialog {
         screenAlpha = 1f - value
     }
 
-    showNightScreenLayer = true
-
     return dialog
 }
 
 @SuppressLint("LaunchActivityFromNotification")
-fun checkDialogPermissionAndShow(context: Context) {
+fun requestAllPermissionsWithAccessibilityAndShow(context: Context) {
     if (XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW) &&
         XXPermissions.isGranted(context, Permission.POST_NOTIFICATIONS) &&
         XXPermissions.isGranted(context, Permission.NOTIFICATION_SERVICE) &&
@@ -91,12 +89,12 @@ fun checkDialogPermissionAndShow(context: Context) {
     ) {
         NightScreenReceiver.sendBroadcast(
             context = context,
-            action = NightScreenReceiver.SHOW_DIALOG_ACTION
+            action = NightScreenReceiver.SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION
         )
     } else {
         context.startActivity(
             Intent(context, MainActivity::class.java).apply {
-                action = MainActivity.REQUEST_PERMISSION_ACTION
+                action = MainActivity.REQUEST_PERMISSION_AND_SHOW_ACTION
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         )

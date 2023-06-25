@@ -44,4 +44,6 @@
     <string name="about_screen_other_works">其他作品</string>
     <string name="overlay_accessibility_service_label">夜屏</string>
     <string name="accessibility_service_description">使用无障碍服务来实现降低亮度的功能</string>
+    <string name="night_screen_on">开启</string>
+    <string name="night_screen_off">关闭</string>
 </resources>

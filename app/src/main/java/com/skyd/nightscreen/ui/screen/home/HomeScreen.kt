@@ -38,7 +38,7 @@ import com.skyd.nightscreen.ext.plus
 import com.skyd.nightscreen.ext.requestAllPermissions
 import com.skyd.nightscreen.ui.component.NsTopBar
 import com.skyd.nightscreen.ui.component.NsTopBarStyle
-import com.skyd.nightscreen.ui.component.dialog.checkDialogPermissionAndShow
+import com.skyd.nightscreen.ui.component.dialog.requestAllPermissionsWithAccessibilityAndShow
 import com.skyd.nightscreen.ui.component.showToast
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
@@ -85,7 +85,7 @@ fun HomeScreen() {
                     imageVector = Icons.Default.PlayArrow,
                     text = stringResource(id = R.string.run_night_screen),
                 ) {
-                    checkDialogPermissionAndShow(context)
+                    requestAllPermissionsWithAccessibilityAndShow(context)
                 }
             }
             item {

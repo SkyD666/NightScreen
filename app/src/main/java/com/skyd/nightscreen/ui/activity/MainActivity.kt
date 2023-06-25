@@ -17,7 +17,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.skyd.nightscreen.R
-import com.skyd.nightscreen.ext.requestAllPermissions
+import com.skyd.nightscreen.ext.requestAllPermissionsAndShow
 import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
 import com.skyd.nightscreen.ui.NightScreenReceiver
 import com.skyd.nightscreen.ui.component.showToast
@@ -38,7 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseComposeActivity() {
     companion object {
-        const val REQUEST_PERMISSION_ACTION = "requestPermission"
+        const val REQUEST_PERMISSION_AND_SHOW_ACTION = "requestPermissionsAndShow"
     }
 
     private lateinit var navController: NavController
@@ -89,7 +89,7 @@ class MainActivity : BaseComposeActivity() {
 
     private fun doIntentAction(action: String?) {
         action ?: return
-        if (action == REQUEST_PERMISSION_ACTION) {
+        if (action == REQUEST_PERMISSION_AND_SHOW_ACTION) {
             requestPermission()
         } else if (action == SETTINGS_SCREEN_ROUTE) {
             navController.navigate(SETTINGS_SCREEN_ROUTE) {
@@ -103,7 +103,7 @@ class MainActivity : BaseComposeActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (isAccessibilityServiceRunning(this)) {
-            requestAllPermissions()
+            requestAllPermissionsAndShow()
         } else {
             getString(R.string.no_accessibility_permission).showToast()
         }
@@ -114,7 +114,7 @@ class MainActivity : BaseComposeActivity() {
             if (isAccessibilityServiceRunning(this)) {
                 NightScreenReceiver.sendBroadcast(
                     context = this,
-                    action = NightScreenReceiver.SHOW_DIALOG_ACTION
+                    action = NightScreenReceiver.SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION
                 )
             } else {
                 startForResult.launch(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))

@@ -11,19 +11,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.appContext
 import com.skyd.nightscreen.ui.activity.MainActivity
-import com.skyd.nightscreen.ui.component.dialog.dialog
-import com.skyd.nightscreen.ui.component.dialog.dialogIsShowing
-import com.skyd.nightscreen.ui.component.dialog.getNightScreenDialog
-import com.skyd.nightscreen.ui.component.showNightScreenLayer
+import com.skyd.nightscreen.ui.component.closeDialog
+import com.skyd.nightscreen.ui.component.closeNightScreen
+import com.skyd.nightscreen.ui.component.showDialogAndNightScreen
 import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 
 class NightScreenReceiver : BroadcastReceiver() {
@@ -31,7 +27,8 @@ class NightScreenReceiver : BroadcastReceiver() {
         const val CLOSE_NOTIFICATION_ACTION = "com.skyd.nightscreen.CLOSE_NOTIFICATION"
         const val SHOW_NOTIFICATION_ACTION = "com.skyd.nightscreen.SHOW_NOTIFICATION"
         const val CLOSE_DIALOG_ACTION = "com.skyd.nightscreen.CLOSE_DIALOG"
-        const val SHOW_DIALOG_ACTION = "com.skyd.nightscreen.SHOW_DIALOG"
+        const val SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION =
+            "com.skyd.nightscreen.SHOW_DIALOG_AND_NIGHT_SCREEN"
         const val POWER_OFF_ACTION = "com.skyd.nightscreen.POWER_OFF"
         const val CHANNEL_ID = "NightScreenNotification"
         const val NOTIFICATION_ID = 1
@@ -58,10 +55,11 @@ class NightScreenReceiver : BroadcastReceiver() {
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
                     ?.cancel(NOTIFICATION_ID)
             }
+
             SHOW_NOTIFICATION_ACTION -> {
                 val clickIntent = Intent(context, NightScreenReceiver::class.java).apply {
                     this.`package` = context.packageName
-                    this.action = SHOW_DIALOG_ACTION
+                    this.action = SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION
                 }
                 val clickPendingIntent = PendingIntent.getBroadcast(
                     context, 0, clickIntent, PendingIntent.FLAG_IMMUTABLE
@@ -109,26 +107,17 @@ class NightScreenReceiver : BroadcastReceiver() {
                     }
                 }
             }
+
             CLOSE_DIALOG_ACTION -> {
-                dialog?.dismiss()
+                closeDialog()
             }
-            SHOW_DIALOG_ACTION -> {
-                if (dialogIsShowing) return
-                if (XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW)) {
-                    getNightScreenDialog().apply {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
-                        } else {
-                            window?.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
-                        }
-                    }.show()
-                }
+
+            SHOW_DIALOG_AND_NIGHT_SCREEN_ACTION -> {
+                showDialogAndNightScreen()
             }
+
             POWER_OFF_ACTION -> {
-                showNightScreenLayer = false
-                dialog?.dismiss()
-                (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
-                    ?.cancel(NOTIFICATION_ID)
+                closeNightScreen()
             }
         }
     }

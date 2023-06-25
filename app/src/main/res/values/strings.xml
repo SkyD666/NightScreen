@@ -44,4 +44,6 @@
     <string name="about_screen_other_works">Other works</string>
     <string name="overlay_accessibility_service_label">Night Screen overlay</string>
     <string name="accessibility_service_description">Use accessibility service to implement the function of reducing screen brightness</string>
+    <string name="night_screen_on">On</string>
+    <string name="night_screen_off">Off</string>
 </resources>
