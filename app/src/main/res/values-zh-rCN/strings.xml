@@ -26,14 +26,12 @@
     <string name="no_permission_can_not_run">无悬浮窗权限，无法启动！</string>
     <string name="settings_screen_lowest_screen_brightness">最低屏幕亮度</string>
     <string name="settings_screen_lowest_screen_brightness_description">启动后自动将屏幕亮度调到最低</string>
-    <string name="no_permission_can_not_lowest_brightness">无权限，无法降低屏幕亮度</string>
     <string name="request_permissions">申请权限</string>
     <string name="request_permission_failed">申请%s权限失败</string>
-    <string name="no_accessibility_permission">无无障碍权限</string>
+    <string name="no_accessibility_permission">未授予无障碍权限</string>
     <string name="request_permissions_success">申请权限成功</string>
     <string name="alert_window_permission">悬浮窗</string>
     <string name="post_notification_permission">通知栏</string>
-    <string name="screen_brightness_permission">更改屏幕亮度</string>
     <string name="night_screen_is_running">夜屏已启动…</string>
     <string name="about_screen_other_works_rays_name">Rays (Record All Your Stickers)</string>
     <string name="about_screen_other_works_rays_description">一个在本地记录、查找、管理表情包的工具。🥰 您还在为手机中的表情包太多，找不到想要的表情包而苦恼吗？使用这款工具将帮助您管理您存储的表情包，再也不因为找不到表情包而烦恼！😋</string>
@@ -44,6 +42,4 @@
     <string name="about_screen_other_works">其他作品</string>
     <string name="overlay_accessibility_service_label">夜屏</string>
     <string name="accessibility_service_description">使用无障碍服务来实现降低亮度的功能</string>
-    <string name="night_screen_on">开启</string>
-    <string name="night_screen_off">关闭</string>
 </resources>

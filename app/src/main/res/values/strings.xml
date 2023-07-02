@@ -26,14 +26,12 @@
     <string name="no_permission_can_not_run">No system alert window permission!</string>
     <string name="settings_screen_lowest_screen_brightness">Lowest screen brightness</string>
     <string name="settings_screen_lowest_screen_brightness_description">Turn down the screen brightness after startup</string>
-    <string name="no_permission_can_not_lowest_brightness">No permission to lower the screen brightness</string>
     <string name="request_permissions">Request permissions</string>
     <string name="request_permission_failed">Failed to request %s permission</string>
     <string name="no_accessibility_permission">No accessibility permission</string>
     <string name="request_permissions_success">Request permissions successfully</string>
     <string name="alert_window_permission">alert window</string>
     <string name="post_notification_permission">post notification</string>
-    <string name="screen_brightness_permission">screen brightness</string>
     <string name="night_screen_is_running">Night Screen is activated…</string>
     <string name="about_screen_other_works_rays_name">Rays (Record All Your Stickers)</string>
     <string name="about_screen_other_works_rays_description">A tool to record, search and manage stickers on your phone. 🥰 Are you still struggling with too many stickers on your phone and having trouble finding the ones you want? This tool will help you manage your stickers! \uD83D\uDE0B</string>
@@ -44,6 +42,4 @@
     <string name="about_screen_other_works">Other works</string>
     <string name="overlay_accessibility_service_label">Night Screen overlay</string>
     <string name="accessibility_service_description">Use accessibility service to implement the function of reducing screen brightness</string>
-    <string name="night_screen_on">On</string>
-    <string name="night_screen_off">Off</string>
 </resources>

@@ -5,8 +5,8 @@ import android.content.Context
 import android.provider.Settings
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
+import com.skyd.nightscreen.ui.component.closeNightScreen
 import com.skyd.nightscreen.ui.component.layerView
-import com.skyd.nightscreen.ui.component.openLowestScreenBrightness
 
 class OverlayAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {}
@@ -21,7 +21,7 @@ class OverlayAccessibilityService : AccessibilityService() {
     override fun onDestroy() {
         super.onDestroy()
 
-        openLowestScreenBrightness = false
+        closeNightScreen()
     }
 }
 

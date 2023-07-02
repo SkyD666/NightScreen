@@ -40,8 +40,8 @@ fun showNightScreen() {
     if (XXPermissions.isGranted(appContext, Permission.SYSTEM_ALERT_WINDOW)) {
         showNightScreenLayer = true
         layerView.visible()
-        if (lowestScreenBrightness) {
-            openLowestScreenBrightness = true
+        if (getLowestScreenBrightness() && !getActualLowestScreenBrightness()) {
+            applyScreenBrightness(true)
         }
         layerView.keepScreenOn = keepScreenOn
         layerView.updateColor(calculatedColor)
@@ -58,7 +58,7 @@ fun closeNightScreen() {
     showNightScreenLayer = false
     dialog?.dismiss()
     layerView.gone()
-    openLowestScreenBrightness = false
+    applyScreenBrightness(false)
     appContext.sendBroadcast(
         Intent(NightScreenService.ACTION_INACTIVE_TILE)
             .setPackage(appContext.packageName)
@@ -105,75 +105,70 @@ private var originBrightnessMode: Int = Settings.System.getInt(
     Settings.System.SCREEN_BRIGHTNESS_MODE
 )
 
-var lowestScreenBrightness: Boolean =
-    sharedPreferences().getBoolean("lowestScreenBrightness", false)
-    set(value) {
-        if (value == field) return
-        field = value
-        sharedPreferences().editor { putBoolean("lowestScreenBrightness", value) }
+fun setLowestScreenBrightness(value: Boolean) {
+    val old = sharedPreferences().getBoolean("lowestScreenBrightness", false)
+    if (value == old) return
+    sharedPreferences().editor { putBoolean("lowestScreenBrightness", value) }
+}
+
+fun applyScreenBrightness(value: Boolean) {
+    if (value && !showNightScreenLayer || !Settings.System.canWrite(appContext)) {
+        return
     }
-
-var openLowestScreenBrightness: Boolean = false
-    get() = lowestScreenBrightness &&
-            Settings.System.getInt(
-                appContext.contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS
-            ) == 0 &&
-            Settings.System.getInt(
-                appContext.contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS_MODE
-            ) == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
-    set(value) {
-        if (value == field) {
-            return
-        }
-        if (!Settings.System.canWrite(appContext)) {
-            return
-        }
-
-        if (value) {
-            originBrightness = Settings.System.getInt(
-                appContext.contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS
-            )
-            originBrightnessMode = Settings.System.getInt(
-                appContext.contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS_MODE
-            )
+    if (value) {
+        originBrightness = Settings.System.getInt(
+            appContext.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS
+        )
+        originBrightnessMode = Settings.System.getInt(
+            appContext.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS_MODE
+        )
+        Settings.System.putInt(
+            appContext.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS,
+            0,
+        )
+        Settings.System.putInt(
+            appContext.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS_MODE,
+            Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
+        )
+    } else {
+        if (Settings.System.getInt(
+                appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS
+            ) == 0
+        ) {
             Settings.System.putInt(
                 appContext.contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS,
-                0,
+                originBrightness,
             )
+        }
+        if (Settings.System.getInt(
+                appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE
+            ) == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
+        ) {
             Settings.System.putInt(
                 appContext.contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS_MODE,
-                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
+                originBrightnessMode,
             )
-            field = true
-        } else {
-            if (Settings.System.getInt(
-                    appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS
-                ) == 0
-            ) {
-                Settings.System.putInt(
-                    appContext.contentResolver,
-                    Settings.System.SCREEN_BRIGHTNESS,
-                    originBrightness,
-                )
-            }
-            if (Settings.System.getInt(
-                    appContext.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE
-                ) == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
-            ) {
-                Settings.System.putInt(
-                    appContext.contentResolver,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    originBrightnessMode,
-                )
-            }
-            field = false
         }
     }
+}
+
+fun getLowestScreenBrightness(): Boolean =
+    sharedPreferences().getBoolean("lowestScreenBrightness", false)
+
+fun getActualLowestScreenBrightness(): Boolean = getLowestScreenBrightness() &&
+        Settings.System.getInt(
+            appContext.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS
+        ) == 0 &&
+        Settings.System.getInt(
+            appContext.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS_MODE
+        ) == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL
 
 val layerView by lazy { LayerView(appContext) }

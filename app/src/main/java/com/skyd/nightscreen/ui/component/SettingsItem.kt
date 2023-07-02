@@ -1,35 +1,54 @@
 package com.skyd.nightscreen.ui.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+
+val LocalUseColorfulIcon = compositionLocalOf { false }
 
 @Composable
 fun SwitchSettingsItem(
     icon: ImageVector,
     text: String,
     description: String? = null,
-    checked: MutableState<Boolean> = mutableStateOf(false),
+    checked: Boolean = false,
+    enabled: Boolean = true,
     onCheckedChange: ((Boolean) -> Unit)?,
+    onLongClick: (() -> Unit)? = null,
 ) {
     SwitchSettingsItem(
         icon = rememberVectorPainter(image = icon),
         text = text,
         description = description,
         checked = checked,
-        onCheckedChange = onCheckedChange
+        enabled = enabled,
+        onCheckedChange = onCheckedChange,
+        onLongClick = onLongClick,
     )
 }
 
@@ -38,22 +57,28 @@ fun SwitchSettingsItem(
     icon: Painter,
     text: String,
     description: String? = null,
-    checked: MutableState<Boolean> = mutableStateOf(false),
+    checked: Boolean = false,
+    enabled: Boolean = true,
     onCheckedChange: ((Boolean) -> Unit)?,
+    onLongClick: (() -> Unit)? = null,
 ) {
     BaseSettingsItem(
+        modifier = Modifier.toggleable(
+            value = checked,
+            enabled = enabled,
+            role = Role.Switch,
+            onValueChange = { onCheckedChange?.invoke(it) },
+        ),
         icon = icon,
         text = text,
-        description = description,
+        descriptionText = description,
+        enabled = enabled,
+        onLongClick = onLongClick,
         onClick = {
-            checked.value = !checked.value
-            onCheckedChange?.invoke(checked.value)
-        }
+            onCheckedChange?.invoke(!checked)
+        },
     ) {
-        Switch(checked = checked.value, onCheckedChange = {
-            checked.value = it
-            onCheckedChange?.invoke(it)
-        })
+        Switch(checked = checked, enabled = enabled, onCheckedChange = null)
     }
 }
 
@@ -85,7 +110,7 @@ fun ColorSettingsItem(
     BaseSettingsItem(
         icon = icon,
         text = text,
-        description = description,
+        descriptionText = description,
         onClick = onClick
     ) {
         IconButton(onClick = { onClick?.invoke() }) {
@@ -103,26 +128,75 @@ fun ColorSettingsItem(
 
 @Composable
 fun BaseSettingsItem(
+    modifier: Modifier = Modifier,
     icon: Painter,
     text: String,
-    description: String? = null,
+    descriptionText: String? = null,
+    enabled: Boolean = true,
     onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
+    content: (@Composable () -> Unit)? = null
+) {
+    BaseSettingsItem(
+        modifier = modifier,
+        icon = icon,
+        text = text,
+        description = if (descriptionText != null) {
+            {
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = descriptionText,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        } else null,
+        onClick = if (enabled) onClick else null,
+        onLongClick = if (enabled) onLongClick else null,
+        content = content,
+    )
+}
+
+@Composable
+fun BaseSettingsItem(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    text: String,
+    description: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
     content: (@Composable () -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .run { if (onClick != null) clickable { onClick() } else this }
+            .run {
+                if (onClick != null && enabled) {
+                    combinedClickable(onLongClick = onLongClick) { onClick() }
+                } else this
+            }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            modifier = Modifier
-                .padding(10.dp)
-                .size(24.dp),
-            painter = icon,
-            contentDescription = null
-        )
+        if (LocalUseColorfulIcon.current) {
+            Image(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(24.dp),
+                painter = icon,
+                contentDescription = null
+            )
+        } else {
+            Icon(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(24.dp),
+                painter = icon,
+                contentDescription = null,
+            )
+        }
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -131,19 +205,17 @@ fun BaseSettingsItem(
             Text(
                 text = text,
                 style = MaterialTheme.typography.titleLarge,
-                maxLines = 2
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
             )
             if (description != null) {
-                Text(
-                    modifier = Modifier.padding(top = 5.dp),
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 2
-                )
+                Box(modifier = Modifier.padding(top = 5.dp)) {
+                    description.invoke()
+                }
             }
         }
-        Box(modifier = Modifier.padding(end = 5.dp)) {
-            content?.invoke()
+        content?.let {
+            Box(modifier = Modifier.padding(end = 5.dp)) { it.invoke() }
         }
     }
 }
@@ -160,6 +232,7 @@ fun CategorySettingsItem(text: String) {
         text = text,
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.primary,
-        maxLines = 1,
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
     )
 }

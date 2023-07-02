@@ -10,16 +10,31 @@ import androidx.compose.material.icons.filled.Opacity
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.skyd.nightscreen.R
-import com.skyd.nightscreen.ui.component.*
+import com.skyd.nightscreen.ui.component.CategorySettingsItem
+import com.skyd.nightscreen.ui.component.ColorSettingsItem
+import com.skyd.nightscreen.ui.component.NsTopBar
+import com.skyd.nightscreen.ui.component.NsTopBarStyle
+import com.skyd.nightscreen.ui.component.SwitchSettingsItem
+import com.skyd.nightscreen.ui.component.applyScreenBrightness
+import com.skyd.nightscreen.ui.component.calculatedColor
 import com.skyd.nightscreen.ui.component.dialog.AlphaDialog
 import com.skyd.nightscreen.ui.component.dialog.ColorDialog
+import com.skyd.nightscreen.ui.component.getLowestScreenBrightness
+import com.skyd.nightscreen.ui.component.keepScreenOn
+import com.skyd.nightscreen.ui.component.screenAlpha
+import com.skyd.nightscreen.ui.component.screenColor
+import com.skyd.nightscreen.ui.component.setLowestScreenBrightness
 
 const val SETTINGS_SCREEN_ROUTE = "settingsScreen"
 
@@ -39,7 +54,8 @@ fun SettingsScreen() {
     ) { innerPadding ->
         var color by remember { mutableStateOf(screenColor) }
         var alphaColor by remember { mutableStateOf(calculatedColor) }
-        val lowestScreenChecked = remember { mutableStateOf(lowestScreenBrightness) }
+        var lowestScreenChecked by remember { mutableStateOf(getLowestScreenBrightness()) }
+        var keepScreenOnChecked by remember { mutableStateOf(keepScreenOn) }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -103,8 +119,11 @@ fun SettingsScreen() {
                     icon = Icons.Default.Brightness7,
                     text = stringResource(id = R.string.settings_screen_keep_screen_on),
                     description = stringResource(id = R.string.settings_screen_keep_screen_on_description),
-                    checked = remember { mutableStateOf(keepScreenOn) },
-                    onCheckedChange = { keepScreenOn = it },
+                    checked = keepScreenOnChecked,
+                    onCheckedChange = {
+                        keepScreenOnChecked = it
+                        keepScreenOn = it
+                    },
                 )
             }
             item {
@@ -114,7 +133,9 @@ fun SettingsScreen() {
                     description = stringResource(id = R.string.settings_screen_lowest_screen_brightness_description),
                     checked = lowestScreenChecked,
                     onCheckedChange = {
-                        lowestScreenBrightness = it
+                        lowestScreenChecked = it
+                        setLowestScreenBrightness(it)
+                        applyScreenBrightness(it)
                     },
                 )
             }
