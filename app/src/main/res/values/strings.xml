@@ -42,4 +42,6 @@
     <string name="about_screen_other_works">Other works</string>
     <string name="overlay_accessibility_service_label">Night Screen overlay</string>
     <string name="accessibility_service_description">Use accessibility service to implement the function of reducing screen brightness</string>
+    <string name="sponsor">Buy me a coffee</string>
+    <string name="sponsor_description">If you like the app, you can buy me a cup of coffee, thanks!</string>
 </resources>
