@@ -173,6 +173,13 @@ private fun AboutItemList(
         }
         Spacer(modifier = Modifier.height(20.dp))
         AboutItem(
+            painter = painterResource(id = R.drawable.ic_telegram_24),
+            text = stringResource(id = R.string.about_screen_join_telegram)
+        ) {
+            openBrowser(Const.JOIN_TELEGRAM)
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        AboutItem(
             painter = painterResource(id = R.drawable.ic_discord_24),
             text = stringResource(id = R.string.about_screen_join_discord)
         ) {

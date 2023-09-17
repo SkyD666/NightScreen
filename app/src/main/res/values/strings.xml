@@ -21,6 +21,7 @@
     <string name="settings_screen_keep_screen_on_description">Keep the screen on when the night screen is on</string>
     <string name="about_screen_goto_github_repo">GitHub</string>
     <string name="about_screen_join_discord">Discord</string>
+    <string name="about_screen_join_telegram">Telegram</string>
     <string name="no_browser_found">Can\'t find the browser, the URL is: %s</string>
     <string name="license">License</string>
     <string name="no_permission_can_not_run">No system alert window permission!</string>

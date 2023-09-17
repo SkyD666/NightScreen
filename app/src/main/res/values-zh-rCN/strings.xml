@@ -20,7 +20,8 @@
     <string name="settings_screen_keep_screen_on">保持屏幕常亮</string>
     <string name="settings_screen_keep_screen_on_description">开启夜间屏幕时保持屏幕常亮</string>
     <string name="about_screen_goto_github_repo">访问 GitHub 仓库</string>
-    <string name="about_screen_join_discord">加入 Discord 群组一起划水~</string>
+    <string name="about_screen_join_discord">加入 Discord 服务器</string>
+    <string name="about_screen_join_telegram">加入 Telegram 群组</string>
     <string name="no_browser_found">找不到浏览器，网址是：%s</string>
     <string name="license">开源许可</string>
     <string name="no_permission_can_not_run">无悬浮窗权限，无法启动！</string>
