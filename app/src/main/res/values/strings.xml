@@ -44,4 +44,7 @@
     <string name="accessibility_service_description">Use accessibility service to implement the function of reducing screen brightness</string>
     <string name="sponsor">Buy me a coffee</string>
     <string name="sponsor_description">If you like the app, you can buy me a cup of coffee, thanks!</string>
+    <string name="sponsor_afadian">Afadian</string>
+    <string name="sponsor_buy_me_a_coffee">Buy me a coffee</string>
+    <string name="dialog_close">Close</string>
 </resources>

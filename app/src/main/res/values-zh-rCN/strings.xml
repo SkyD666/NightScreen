@@ -44,4 +44,7 @@
     <string name="accessibility_service_description">使用无障碍服务来实现降低亮度的功能</string>
     <string name="sponsor">赞助作者</string>
     <string name="sponsor_description">如果您喜欢我开发的软件，您可以请我喝一杯咖啡，谢谢！</string>
+    <string name="sponsor_afadian">爱发电</string>
+    <string name="sponsor_buy_me_a_coffee">Buy me a coffee</string>
+    <string name="dialog_close">关闭</string>
 </resources>

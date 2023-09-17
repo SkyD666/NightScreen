@@ -27,21 +27,28 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Coffee
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,6 +72,7 @@ import com.skyd.nightscreen.config.Const
 import com.skyd.nightscreen.ui.component.Centered
 import com.skyd.nightscreen.ui.component.NsTopBar
 import com.skyd.nightscreen.ui.component.NsTopBarStyle
+import com.skyd.nightscreen.ui.component.dialog.NsDialog
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.license.LICENSE_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.shape.ReuleauxTriangleShape
@@ -78,6 +86,7 @@ const val ABOUT_SCREEN_ROUTE = "aboutScreen"
 fun AboutScreen() {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val context = LocalContext.current
+    var openSponsorDialog by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
             NsTopBar(
@@ -103,7 +112,13 @@ fun AboutScreen() {
                 item {
                     Row(modifier = Modifier.wrapContentSize()) {
                         AppIconArea(modifier = Modifier.weight(1f))
-                        AboutItemList(modifier = Modifier.weight(1f))
+                        AboutItemList(
+                            modifier = Modifier.weight(1f),
+                            openSponsorDialog = openSponsorDialog,
+                            onSponsorDialogVisibleChange = { visible ->
+                                openSponsorDialog = visible
+                            },
+                        )
                     }
                 }
             } else {
@@ -111,7 +126,10 @@ fun AboutScreen() {
                     AppIconArea()
                 }
                 item {
-                    AboutItemList()
+                    AboutItemList(
+                        openSponsorDialog = openSponsorDialog,
+                        onSponsorDialogVisibleChange = { visible -> openSponsorDialog = visible },
+                    )
                 }
             }
 
@@ -130,7 +148,9 @@ fun AboutScreen() {
 
 @Composable
 private fun AboutItemList(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openSponsorDialog: Boolean,
+    onSponsorDialogVisibleChange: (Boolean) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -142,7 +162,7 @@ private fun AboutItemList(
             painter = rememberVectorPainter(image = Icons.Default.Coffee),
             text = stringResource(id = R.string.sponsor)
         ) {
-            openBrowser(Const.SPONSOR)
+            onSponsorDialogVisibleChange(true)
         }
         Spacer(modifier = Modifier.height(20.dp))
         AboutItem(
@@ -166,6 +186,8 @@ private fun AboutItemList(
             navController.navigate(LICENSE_SCREEN_ROUTE)
         }
     }
+
+    SponsorDialog(visible = openSponsorDialog, onClose = { onSponsorDialogVisibleChange(false) })
 }
 
 @Composable
@@ -319,4 +341,47 @@ private fun OtherWorksItem(
             )
         }
     }
+}
+
+@Composable
+fun SponsorDialog(visible: Boolean, onClose: () -> Unit) {
+    NsDialog(
+        visible = visible,
+        onDismissRequest = onClose,
+        icon = { Icon(imageVector = Icons.Default.Coffee, contentDescription = null) },
+        title = { Text(text = stringResource(id = R.string.sponsor)) },
+        selectable = false,
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Text(text = stringResource(id = R.string.sponsor_description))
+                Spacer(modifier = Modifier.height(6.dp))
+                ListItem(
+                    modifier = Modifier.clickable {
+                        openBrowser(Const.SPONSOR_AFADIAN)
+                        onClose()
+                    },
+                    headlineContent = { Text(text = stringResource(R.string.sponsor_afadian)) },
+                    leadingContent = {
+                        Icon(imageVector = Icons.Default.Lightbulb, contentDescription = null)
+                    }
+                )
+                Divider()
+                ListItem(
+                    modifier = Modifier.clickable {
+                        openBrowser(Const.SPONSOR_BUY_ME_A_COFFEE)
+                        onClose()
+                    },
+                    headlineContent = { Text(text = stringResource(R.string.sponsor_buy_me_a_coffee)) },
+                    leadingContent = {
+                        Icon(imageVector = Icons.Default.Coffee, contentDescription = null)
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onClose) {
+                Text(text = stringResource(R.string.dialog_close))
+            }
+        },
+    )
 }

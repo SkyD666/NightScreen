@@ -7,20 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Coffee
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -28,7 +21,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import com.skyd.nightscreen.R
-import com.skyd.nightscreen.config.Const
 import com.skyd.nightscreen.ext.editor
 import com.skyd.nightscreen.ext.requestAllPermissionsAndShow
 import com.skyd.nightscreen.ext.requestSystemAlertWindowPermission
@@ -38,6 +30,7 @@ import com.skyd.nightscreen.ui.component.showToast
 import com.skyd.nightscreen.ui.local.LocalNavController
 import com.skyd.nightscreen.ui.screen.about.ABOUT_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.about.AboutScreen
+import com.skyd.nightscreen.ui.screen.about.SponsorDialog
 import com.skyd.nightscreen.ui.screen.home.HOME_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.home.HomeScreen
 import com.skyd.nightscreen.ui.screen.license.LICENSE_SCREEN_ROUTE
@@ -46,7 +39,6 @@ import com.skyd.nightscreen.ui.screen.settings.SETTINGS_SCREEN_ROUTE
 import com.skyd.nightscreen.ui.screen.settings.SettingsScreen
 import com.skyd.nightscreen.ui.service.isAccessibilityServiceRunning
 import com.skyd.nightscreen.ui.theme.NightScreenTheme
-import com.skyd.nightscreen.util.CommonUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -66,12 +58,12 @@ class MainActivity : BaseComposeActivity() {
 
         if (launchTimes == -1) {
             launchTimes = sharedPreferences().getInt("launchTimes", 0) + 1
-            sharedPreferences().editor { putInt("launchTimes", launchTimes % 10) }
+            sharedPreferences().editor { putInt("launchTimes", launchTimes % 20) }
         }
 
         setContent {
             val navController = rememberNavController()
-            var openSponsorDialog by rememberSaveable { mutableStateOf(launchTimes == 10) }
+            var openSponsorDialog by rememberSaveable { mutableStateOf(launchTimes == 20) }
             CompositionLocalProvider(LocalNavController provides navController) {
                 this.navController = navController
                 NightScreenTheme {
@@ -99,29 +91,10 @@ class MainActivity : BaseComposeActivity() {
                         }
                     }
 
-                    if (openSponsorDialog) {
-                        AlertDialog(
-                            onDismissRequest = { openSponsorDialog = false },
-                            icon = {
-                                Icon(imageVector = Icons.Default.Coffee, contentDescription = null)
-                            },
-                            title = { Text(text = stringResource(id = R.string.sponsor)) },
-                            text = { Text(text = stringResource(id = R.string.sponsor_description)) },
-                            confirmButton = {
-                                TextButton(onClick = {
-                                    CommonUtil.openBrowser(Const.SPONSOR)
-                                    openSponsorDialog = false
-                                }) {
-                                    Text(text = stringResource(id = R.string.ok))
-                                }
-                            },
-                            dismissButton = {
-                                TextButton(onClick = { openSponsorDialog = false }) {
-                                    Text(text = stringResource(id = R.string.cancel))
-                                }
-                            }
-                        )
-                    }
+                    SponsorDialog(
+                        visible = openSponsorDialog,
+                        onClose = { openSponsorDialog = false }
+                    )
                 }
                 doIntentAction(intent?.action)
             }
