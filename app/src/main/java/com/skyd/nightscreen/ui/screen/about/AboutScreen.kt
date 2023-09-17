@@ -202,14 +202,15 @@ private fun AppIconArea(modifier: Modifier = Modifier) {
     val view = LocalView.current
     var startAnimation by remember { mutableStateOf(false) }
     Centered(modifier = modifier.fillMaxWidth()) {
-        val infiniteTransition = rememberInfiniteTransition()
+        val infiniteTransition = rememberInfiniteTransition(label = "infiniteTransition")
         val animatedPress: Float by infiniteTransition.animateFloat(
             initialValue = 0f,
             targetValue = 360f,
             animationSpec = infiniteRepeatable(
                 animation = tween(easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
-            )
+            ),
+            label = "animatedPress"
         )
 
         Box(

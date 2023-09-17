@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,8 +53,8 @@ fun SettingsScreen() {
             )
         }
     ) { innerPadding ->
-        var color by remember { mutableStateOf(screenColor) }
-        var alphaColor by remember { mutableStateOf(calculatedColor) }
+        var color by remember { mutableIntStateOf(screenColor) }
+        var alphaColor by remember { mutableIntStateOf(calculatedColor) }
         var lowestScreenChecked by remember { mutableStateOf(getLowestScreenBrightness()) }
         var keepScreenOnChecked by remember { mutableStateOf(keepScreenOn) }
         LazyColumn(

@@ -5,6 +5,7 @@ import android.content.Context
 import android.provider.Settings
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
+import com.skyd.nightscreen.BuildConfig
 import com.skyd.nightscreen.ui.component.closeNightScreen
 import com.skyd.nightscreen.ui.component.layerView
 
@@ -31,5 +32,14 @@ fun isAccessibilityServiceRunning(context: Context): Boolean {
         Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
     )
 
-    return prefString != null && prefString.contains(OverlayAccessibilityService::class.java.name)
+    val raysAccessibilityServiceName = OverlayAccessibilityService::class.java.name
+
+    val patterns = arrayOf(
+        "${BuildConfig.APPLICATION_ID}/${raysAccessibilityServiceName}",
+        raysAccessibilityServiceName.replaceFirst(
+            context.packageName.substringBeforeLast(".debug"),
+            "${BuildConfig.APPLICATION_ID}/"
+        )
+    )
+    return prefString != null && patterns.any { prefString.contains(it) }
 }

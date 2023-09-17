@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Build
-import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -16,7 +15,6 @@ import com.skyd.nightscreen.util.screenWidth
 
 
 class LayerView(context: Context) : View(context) {
-    private val contentResolver = context.contentResolver
 
     var layoutParams = WindowManager.LayoutParams(
         context.screenWidth,

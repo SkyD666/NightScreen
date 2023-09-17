@@ -23,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.skyd.nightscreen.R
 import com.skyd.nightscreen.config.Const
 import com.skyd.nightscreen.ext.editor
@@ -70,12 +70,12 @@ class MainActivity : BaseComposeActivity() {
         }
 
         setContent {
-            val navController = rememberAnimatedNavController()
+            val navController = rememberNavController()
             var openSponsorDialog by rememberSaveable { mutableStateOf(launchTimes == 10) }
             CompositionLocalProvider(LocalNavController provides navController) {
                 this.navController = navController
                 NightScreenTheme {
-                    AnimatedNavHost(
+                    NavHost(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(MaterialTheme.colorScheme.background),

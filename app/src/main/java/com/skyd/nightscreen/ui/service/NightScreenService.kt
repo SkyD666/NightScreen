@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import androidx.core.content.ContextCompat
 import com.skyd.nightscreen.ui.component.closeNightScreen
 import com.skyd.nightscreen.ui.component.dialog.requestAllPermissionsWithAccessibilityAndShow
 import com.skyd.nightscreen.ui.component.showNightScreenLayer
@@ -15,12 +16,14 @@ class NightScreenService : TileService() {
     override fun onStartListening() {
         super.onStartListening()
 
-        registerReceiver(
+        ContextCompat.registerReceiver(
+            this,
             receiver,
             IntentFilter().apply {
                 addAction(ACTION_ACTIVE_TILE)
                 addAction(ACTION_INACTIVE_TILE)
             },
+            ContextCompat.RECEIVER_EXPORTED,
         )
 
         qsTile.state = if (showNightScreenLayer) {

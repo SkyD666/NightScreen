@@ -21,11 +21,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -141,6 +143,7 @@ fun RadioSettingsItem(
         icon = icon,
         text = text,
         descriptionText = description,
+        enabled = enabled,
         onLongClick = onLongClick,
     ) {
         RadioButton(
@@ -222,6 +225,7 @@ fun BaseSettingsItem(
                 )
             }
         } else null,
+        enabled = enabled,
         onClick = if (enabled) onClick else null,
         onLongClick = if (enabled) onLongClick else null,
         content = content,
@@ -239,53 +243,61 @@ fun BaseSettingsItem(
     onLongClick: (() -> Unit)? = null,
     content: (@Composable () -> Unit)? = null
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .run {
-                if (onClick != null && enabled) {
-                    combinedClickable(onLongClick = onLongClick) { onClick() }
-                } else this
-            }
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (LocalUseColorfulIcon.current) {
-            Image(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(24.dp),
-                painter = icon,
-                contentDescription = null
-            )
+    CompositionLocalProvider(
+        LocalContentColor provides if (enabled) {
+            LocalContentColor.current
         } else {
-            Icon(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(24.dp),
-                painter = icon,
-                contentDescription = null,
-            )
-        }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 10.dp)
+            LocalContentColor.current.copy(alpha = 0.38f)
+        },
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .run {
+                    if (onClick != null && enabled) {
+                        combinedClickable(onLongClick = onLongClick) { onClick() }
+                    } else this
+                }
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.titleLarge,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-            )
-            if (description != null) {
-                Box(modifier = Modifier.padding(top = 5.dp)) {
-                    description.invoke()
+            if (LocalUseColorfulIcon.current) {
+                Image(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(24.dp),
+                    painter = icon,
+                    contentDescription = null
+                )
+            } else {
+                Icon(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(24.dp),
+                    painter = icon,
+                    contentDescription = null,
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 10.dp)
+            ) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                if (description != null) {
+                    Box(modifier = Modifier.padding(top = 5.dp)) {
+                        description.invoke()
+                    }
                 }
             }
-        }
-        content?.let {
-            Box(modifier = Modifier.padding(end = 5.dp)) { it.invoke() }
+            content?.let {
+                Box(modifier = Modifier.padding(end = 5.dp)) { it.invoke() }
+            }
         }
     }
 }

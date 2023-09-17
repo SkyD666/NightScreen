@@ -25,7 +25,7 @@ fun AlphaDialog(
     onAlphaSelected: (alpha: Float) -> Unit
 ) {
     val (r, g, b) = initColor
-    var alpha: Float by remember { mutableStateOf(initAlpha) }
+    var alpha: Float by remember { mutableFloatStateOf(initAlpha) }
     var color: Color by remember { mutableStateOf(initColor) }
     AlertDialog(
         onDismissRequest = onDismissRequest,
