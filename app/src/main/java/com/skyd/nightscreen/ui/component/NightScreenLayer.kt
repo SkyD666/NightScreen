@@ -105,6 +105,12 @@ private var originBrightnessMode: Int = Settings.System.getInt(
     Settings.System.SCREEN_BRIGHTNESS_MODE
 )
 
+var runAsScheduled = sharedPreferences().getBoolean("runAsScheduled", false)
+    set(value) {
+        field = value
+        sharedPreferences().editor { putBoolean("runAsScheduled", value) }
+    }
+
 fun setLowestScreenBrightness(value: Boolean) {
     val old = sharedPreferences().getBoolean("lowestScreenBrightness", false)
     if (value == old) return

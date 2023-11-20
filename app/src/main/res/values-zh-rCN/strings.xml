@@ -48,4 +48,8 @@
     <string name="sponsor_afadian">爱发电</string>
     <string name="sponsor_buy_me_a_coffee">Buy me a coffee</string>
     <string name="dialog_close">关闭</string>
+    <string name="settings_screen_scheduled_task_settings">定时任务</string>
+    <string name="settings_screen_schedule_task_start_time">启动时间</string>
+    <string name="settings_screen_schedule_task_stop_time">关闭时间</string>
+    <string name="settings_screen_schedule_task_auto_run">自动启动</string>
 </resources>

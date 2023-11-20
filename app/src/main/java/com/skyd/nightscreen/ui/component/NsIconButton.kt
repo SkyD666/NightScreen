@@ -71,13 +71,19 @@ fun NsIconButton(
     }
 
     if (contentDescription.isNullOrEmpty()) {
-        iconButton(modifier = modifier)
+        iconButton(modifier)
     } else {
-        PlainTooltipBox(
+        TooltipBox(
             modifier = modifier,
-            tooltip = { Text(contentDescription) }
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = {
+                PlainTooltip {
+                    Text(contentDescription)
+                }
+            },
+            state = rememberTooltipState()
         ) {
-            iconButton(modifier = Modifier.tooltipAnchor())
+            iconButton(Modifier)
         }
     }
 }
